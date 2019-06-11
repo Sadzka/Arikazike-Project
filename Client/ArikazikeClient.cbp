@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ArikazikeClient" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="ArikazikeClientDebug" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-D__DEBUG" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-D__CLIENT" />
+			<Add directory="include" />
+			<Add directory="../Shared/include" />
+			<Add directory="src" />
+			<Add directory="../Shared/src" />
+		</Compiler>
+		<Unit filename="../Shared/include/Entity/Components/CStats.hpp" />
+		<Unit filename="../Shared/include/Entity/Components/Component.hpp" />
+		<Unit filename="../Shared/include/Entity/Components/Health.hpp" />
+		<Unit filename="../Shared/include/Entity/Directions.hpp" />
+		<Unit filename="../Shared/include/Entity/Entity.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityManager.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityRace.hpp" />
+		<Unit filename="../Shared/include/Entity/EntitySnapshot.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityState.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityType.hpp" />
+		<Unit filename="../Shared/include/Locations.hpp" />
+		<Unit filename="../Shared/include/NetworkSettings.hpp" />
+		<Unit filename="../Shared/include/PacketTypes.hpp" />
+		<Unit filename="../Shared/src/Entity/Components/CStats.cpp" />
+		<Unit filename="../Shared/src/Entity/Components/Health.cpp" />
+		<Unit filename="../Shared/src/Entity/Entity.cpp" />
+		<Unit filename="../Shared/src/Entity/EntityManager.cpp" />
+		<Unit filename="../Shared/src/Entity/EntitySnapshot.cpp" />
+		<Unit filename="../Shared/src/Locations.cpp" />
+		<Unit filename="include/Entity/C_EntityManager.hpp" />
+		<Unit filename="include/Game.hpp" />
+		<Unit filename="include/Input/Binding.hpp" />
+		<Unit filename="include/Input/EventDetails.hpp" />
+		<Unit filename="include/Input/EventInfo.hpp" />
+		<Unit filename="include/Input/EventManager.hpp" />
+		<Unit filename="include/Input/EventType.hpp" />
+		<Unit filename="include/Map/Map.hpp" />
+		<Unit filename="include/Map/Tile.hpp" />
+		<Unit filename="include/ResourcesManager/TextureManager.hpp" />
+		<Unit filename="include/Server/Client.hpp" />
+		<Unit filename="include/Shared.hpp" />
+		<Unit filename="include/Spritesheet/Animation.hpp" />
+		<Unit filename="include/Spritesheet/SpriteSheet.hpp" />
+		<Unit filename="include/States/Intro.hpp" />
+		<Unit filename="include/States/S_Character.hpp" />
+		<Unit filename="include/States/S_Game.hpp" />
+		<Unit filename="include/States/State.hpp" />
+		<Unit filename="include/States/StateManager.hpp" />
+		<Unit filename="include/States/StateType.hpp" />
+		<Unit filename="include/Utilities/EnumHash.hpp" />
+		<Unit filename="include/Window.hpp" />
+		<Unit filename="src/Entity/C_EntityManager.cpp" />
+		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/Input/EventManager.cpp" />
+		<Unit filename="src/Map/Map.cpp" />
+		<Unit filename="src/Map/Tile.cpp" />
+		<Unit filename="src/ResourceManager/TextureManager.cpp" />
+		<Unit filename="src/Server/Client.cpp" />
+		<Unit filename="src/Spritesheet/Animation.cpp" />
+		<Unit filename="src/Spritesheet/SpriteSheet.cpp" />
+		<Unit filename="src/States/Intro.cpp" />
+		<Unit filename="src/States/S_Character.cpp" />
+		<Unit filename="src/States/S_Game.cpp" />
+		<Unit filename="src/States/State.cpp" />
+		<Unit filename="src/States/StateManager.cpp" />
+		<Unit filename="src/Window.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<DoxyBlocks>
+				<comment_style block="5" line="2" />
+				<doxyfile_project />
+				<doxyfile_build />
+				<doxyfile_warnings />
+				<doxyfile_output />
+				<doxyfile_dot />
+				<general />
+			</DoxyBlocks>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

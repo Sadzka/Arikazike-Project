@@ -1,0 +1,7 @@
+Texture Human.png
+Size 64 64
+Scale 1.0 1.0
+|Type|Name|StartFrame|EndFrame|Row|FrameTime|FrameActionStart|End|
+AnimationType Directional
+Animation Idle 0 0 0 1 -1 -1
+Animation Walk 1 7 0 0.1 -1 -1

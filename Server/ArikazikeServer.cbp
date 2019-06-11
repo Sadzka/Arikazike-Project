@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ArikazikeServer" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/ArikazikeServer" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+					<Add directory="Shared/include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/ArikazikeServer" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add directory="include" />
+					<Add directory="Shared/include" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add option="-D__SERVER" />
+			<Add directory="../../Program Files (x86)/CodeBlocks/MySql/include" />
+			<Add directory="../Shared/include" />
+			<Add directory="../Shared/src" />
+		</Compiler>
+		<Linker>
+			<Add library="C:/Program Files (x86)/CodeBlocks/MySql/libmysql.a/libmysql.a" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/mysql-connector-8.0.15/lib" />
+		</Linker>
+		<Unit filename="../Shared/include/Entity/Components/CMana.hpp" />
+		<Unit filename="../Shared/include/Entity/Components/CStats.hpp" />
+		<Unit filename="../Shared/include/Entity/Components/Component.hpp" />
+		<Unit filename="../Shared/include/Entity/Components/Health.hpp" />
+		<Unit filename="../Shared/include/Entity/Entity.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityManager.hpp" />
+		<Unit filename="../Shared/include/Entity/EntitySnapshot.hpp" />
+		<Unit filename="../Shared/include/PacketTypes.hpp" />
+		<Unit filename="../Shared/src/Entity/Components/CMana.cpp" />
+		<Unit filename="../Shared/src/Entity/Components/CStats.cpp" />
+		<Unit filename="../Shared/src/Entity/Components/Health.cpp" />
+		<Unit filename="../Shared/src/Entity/Entity.cpp" />
+		<Unit filename="../Shared/src/Entity/EntitySnapshot.cpp" />
+		<Unit filename="include/ClientInfo.hpp" />
+		<Unit filename="include/Console/Commands.hpp" />
+		<Unit filename="include/Database/MySQL.hpp" />
+		<Unit filename="include/PacketHandler.hpp" />
+		<Unit filename="include/Server.hpp" />
+		<Unit filename="include/Utilities/sha512.h" />
+		<Unit filename="src/Console/Commands.cpp" />
+		<Unit filename="src/Database/MySQL.cpp" />
+		<Unit filename="src/PacketHandler.cpp" />
+		<Unit filename="src/Server.cpp" />
+		<Unit filename="src/Utilities/sha512.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

@@ -1,0 +1,76 @@
+Renderer.1 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolordown = #EBEBEB;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolordown = black;
+    bordercolorfocused = #1E1EB4;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+    textcolordown = black;
+    textcolorhover = black;
+}
+
+Renderer.2 {
+    backgroundcolor = #F5F5F5;
+    backgroundcolordisabled = #E6E6E6;
+    backgroundcolorhover = white;
+    bordercolor = #3C3C3C;
+    bordercolordisabled = #7D7D7D;
+    bordercolorhover = black;
+    borders = (1, 1, 1, 1);
+    caretcolor = black;
+    caretwidth = 1;
+    defaulttextcolor = #A0A0A0;
+    padding = (0, 0, 0, 0);
+    selectedtextbackgroundcolor = #006EFF;
+    selectedtextcolor = white;
+    textcolor = #3C3C3C;
+    textcolordisabled = #7D7D7D;
+}
+
+Picture {
+    Size = (&.innersize + 1, &.innersize + 1);
+
+    Renderer {
+        texture = "Data\img\Screens\main.jpg";
+        transparenttexture = false;
+    }
+}
+
+EditBox {
+    DefaultText = "Username";
+    Position = ((0.5 * &.innersize) - 150, (0.5 * &.innersize) - 25);
+    Size = (300, 40);
+    TextSize = 24;
+    renderer = &2;
+}
+
+EditBox {
+    DefaultText = "Password";
+    PasswordCharacter = "*";
+    Position = ((0.5 * &.innersize) - 150, (0.5 * &.innersize) + 25);
+    Size = (300, 40);
+    TextSize = 24;
+    renderer = &2;
+}
+
+Button."Login" {
+    Position = ((0.5 * &.innersize) - 150, (0.5 * &.innersize) + 75);
+    Size = (300, 40);
+    Text = "Login";
+    TextSize = 24;
+    renderer = &1;
+}
+
+Button."Exit" {
+    Position = (&.innersize - 310, &.innersize - 50);
+    Size = (300, 40);
+    Text = "Exit";
+    TextSize = 24;
+    renderer = &1;
+}

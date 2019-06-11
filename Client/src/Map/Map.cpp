@@ -1,0 +1,125 @@
+#include "Map/Map.hpp"
+#include "Shared.hpp"
+
+Map::Map(Shared* shared)
+{
+    m_tileId = 0;
+
+    m_shared = shared;
+	m_shared->m_gameMap = this;
+	m_map = nullptr;
+
+	//loadMap("map1.txt");
+}
+
+Map::~Map(){
+	purgeMap();
+	purgeTileSet();
+	m_shared->m_gameMap = nullptr;
+}
+
+void Map::purgeMap()
+{
+    for (int i = 0; i < m_mapsize.x; i++)
+    {
+        if(m_map[i])
+        {
+            delete [] m_map[i];
+            m_map[i] = nullptr;
+        }
+    }
+    if(m_map)
+    {
+        delete [] m_map;
+        m_map = nullptr;
+    }
+}
+
+void Map::purgeTileSet()
+{
+    //m_usedTextures.clear();
+    m_tileId = 0;
+}
+
+void Map::loadMap(const std::string& path)
+{
+	std::fstream mapFile;
+	mapFile.open( "Data\\Maps\\" + path, std::ios::in);
+
+	if (!mapFile.is_open()){ std::cout << "DEBUG_MESSAGE: Map::LoadMap() Failed loading map file: " << path << std::endl; return; }
+
+	std::string line;
+    purgeMap(); // clear old
+
+	while(std::getline(mapFile,line))
+    {
+		if (line == "TILES")
+		{
+		    std::getline(mapFile, line);
+		    while( line != "MAP")
+            {
+                loadTiles("data/img/Tilesets/"+line);
+                std::getline(mapFile, line);
+            }
+            sf::Uint16 x, y;
+            mapFile>>x>>y;
+            m_mapsize = sf::Vector2u(x, y);
+
+            //load map tiles
+            m_map = new sf::Int16 * [x];
+            for(int i=0; i<x; i++)
+                m_map[i] = new sf::Int16[y];
+
+            for(int i=0; i<x; i++)
+                for(int j=0; j<y; j++)
+                    mapFile>>m_map[i][j];
+		}
+    }
+
+	mapFile.close();
+}
+
+void Map::loadTiles(const std::string& path)
+{
+    if (path == "") { return; }
+    if ( !m_shared->m_textureManager->loadResource(path)) return;
+    for(int i = 0; i < 7; i++)
+    {
+        for (int j = 0; j < 3; j++ )
+        {
+            Tile * tile = new Tile( m_shared->m_textureManager->getResource(path),
+                                    sf::IntRect(i*Tiles::size, j*Tiles::size, Tiles::size, Tiles::size),
+                                    m_tileId );
+            m_tileMap.push_back(tile);
+            m_tileId++;
+        }
+    }
+}
+
+void Map::update(float l_dT)
+{
+        /// todo
+}
+
+void Map::draw()
+{
+	sf::RenderWindow* wind = m_shared->m_wind->getRenderWindow();
+	sf::FloatRect viewSpace = m_shared->m_wind->getViewSpace();
+
+    for(int i=0; i<m_mapsize.x; i++)
+    {
+        for(int j=0; j<m_mapsize.y; j++)
+        {
+            if(m_map[j][i] != -1)
+            {
+                m_tileMap[ m_map[j][i] ]->m_sprite.setPosition( Tiles::size*i, Tiles::size*j );
+                m_shared->m_wind->draw( m_tileMap[ m_map[j][i] ]->m_sprite );
+
+            }
+        }
+    }
+}
+
+const sf::Vector2u& Map::getmapsize()const { return m_mapsize; }
+
+void Map::setCurrentState(State * state) { m_currentState = state; }
