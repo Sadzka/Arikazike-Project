@@ -1,5 +1,5 @@
 #include "Entity/Components/CMana.hpp"
-/*
+
 CMana::CMana()
 {
     m_type = ComponentType::Mana;
@@ -45,4 +45,4 @@ void CMana::resurrect(const float& mana)
 {
     m_mana = mana* m_manaMax;
 }
-*/
+

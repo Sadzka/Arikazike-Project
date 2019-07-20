@@ -1,7 +1,7 @@
 #pragma once
 #include <SFML/Config.hpp>
 #include "Entity/Components/Component.hpp"
-/*
+
 class CHealth : public Component
 {
     sf::Int64          m_health;
@@ -23,4 +23,4 @@ public:
     /// \arg health % HP <0, 100>;
     void resurrect(const float&);
 };
-*/
+

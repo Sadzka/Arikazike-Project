@@ -1,5 +1,5 @@
 #include "Database/MySQL.hpp"
-#include "../../include/Server.hpp"
+#include "Server.hpp"
 
 using std::cout;
 using std::endl;
@@ -110,15 +110,7 @@ void MySQL::_GetCharacter(ClientInfo * client, sf::Uint32 characterID, sf::Packe
         return;
     }
     row = mysql_fetch_row(result);
-    /*
-    row[0] = name
-    row[1] = x
-    row[2] = y
-    row[3] = health
-    row[4] = mana
-    row[5] = location
-    row[6] = race
-    */
+
     Entity * entity = new Entity;
     entity->addComponent<CHealth>();
     entity->addComponent<CMana>();
