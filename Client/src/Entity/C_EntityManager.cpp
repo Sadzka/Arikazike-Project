@@ -2,7 +2,6 @@
 
 C_EntityManager::C_EntityManager(Shared * shared) : m_shared(shared) { }
 
-
 void C_EntityManager::draw()
 {
 	for(auto &itr : m_entities)
@@ -52,7 +51,10 @@ Entity * C_EntityManager::add(Entity * entity)
     }
 	m_entities.emplace(entity->getId(), entity);
 
-	for( auto x : m_entities) cout << x.second->getName() << " " << x.second->getId() << " " << x.second->getPosition().x << " " << x.second->getPosition().y << endl;
+	for( auto x : m_entities)
+        cout << x.second->getName() << " " << x.second->getId() << " " << x.second->getPosition().x << " " << x.second->getPosition().y << endl;
+    throw 0;
+
 	/// \todo
 	//return find(m_idCounter-1);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity/EntityManager.hpp"
 #include "Entity/EntitySnapshot.hpp"
+#include "Entity/Entity.hpp"
 #include "Shared.hpp"
 
 class Shared;

@@ -1,5 +1,5 @@
-#include "../../Shared/include/Entity/Components/Health.hpp"
-
+#include "Entity/Components/Health.hpp"
+/*
 CHealth::CHealth() : m_dead(false), m_health(10), m_healthMax(10)
 {
     m_type = ComponentType::Health;
@@ -33,3 +33,4 @@ void CHealth::resurrect(const float& health)
     m_dead = false;
     m_health = health* m_healthMax;
 }
+*/

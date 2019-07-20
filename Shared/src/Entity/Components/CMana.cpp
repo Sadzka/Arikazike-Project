@@ -1,5 +1,5 @@
-#include "../../Shared/include/Entity/Components/CMana.hpp"
-
+#include "Entity/Components/CMana.hpp"
+/*
 CMana::CMana()
 {
     m_type = ComponentType::Mana;
@@ -16,11 +16,25 @@ void CMana::round()
     }
 }
 
-sf::Int64 CMana::getMana() { return m_mana; }
-sf::Int64 CMana::getManaMax() { return m_manaMax; }
+sf::Int64 CMana::getMana()
+{
+    return m_mana;
+}
 
-void CMana::setMana(const sf::Int64& mana) { m_mana = mana; }
-void CMana::setManaMax(const sf::Int64& mana) { m_manaMax = mana; }
+sf::Int64 CMana::getManaMax()
+{
+    return m_manaMax;
+}
+
+void CMana::setMana(const sf::Int64& mana)
+{
+    m_mana = mana;
+}
+
+void CMana::setManaMax(const sf::Int64& mana)
+{
+    m_manaMax = mana;
+}
 
 void CMana::damage(const sf::Int64& damage)
 {
@@ -31,3 +45,4 @@ void CMana::resurrect(const float& mana)
 {
     m_mana = mana* m_manaMax;
 }
+*/

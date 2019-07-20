@@ -5,7 +5,6 @@ enum class ComponentType
     Health,
     Mana,
     Stats
-
 };
 
 class Component
