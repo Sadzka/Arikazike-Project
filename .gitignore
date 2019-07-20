@@ -64,7 +64,5 @@
 
 #Specific
 Concepts/*
-*.cbp
 *.cscope_file_list
-*.depend
 *.layout
