@@ -46,6 +46,8 @@ class Entity
 #ifdef __CLIENT
     SpriteSheet m_spritesheet;
     sf::Uint64 m_lastUpdate;
+#else
+    sf::Int32 m_lasthearthbeat;
 #endif // __CLIENT
 
     sf::Vector2f m_position; // Current position.
@@ -82,6 +84,8 @@ public:
 
             return static_cast<T*>(comp);
         }
+// TODO (Sadza#1#): add exception
+        throw 0;
     }
 
     template <class T>
@@ -130,6 +134,8 @@ public:
     sf::Int64 getLastUpdate()const;
 #else
     EntitySnapshot getSnapshot();
+    void setLastHearhbeat(const sf::Int32 & time);
+    sf::Int32 getLastHearhbeat()const;
 #endif // __CLIENT
 
     friend sf::Packet& operator<< (sf::Packet& packet, const Entity& entity);

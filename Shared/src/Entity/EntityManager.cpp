@@ -27,6 +27,8 @@ Entity * EntityManager::add(const EntityType& type, const std::string& name)
 	m_entities.emplace(entity->getId(), entity);
 
 	/// \todo
+// TODO (Sadza#1#): add exception
+        throw 0;
 	//return find(m_idCounter-1);
 }
 

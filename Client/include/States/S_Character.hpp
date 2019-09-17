@@ -7,10 +7,11 @@
 
 class S_Character : public State
 {
-    void loadGUI();
     sf::CircleShape m_circleSelect;
     int m_select;
     sf::Uint64 m_cid;
+
+    void loadGUI();
 
 public:
     S_Character(StateManager* stateManager);

@@ -20,4 +20,5 @@ namespace utils
 
     template <typename Key, typename T>
     using unordered_map = std::unordered_map<Key, T, HashType<Key>>;
+
 }

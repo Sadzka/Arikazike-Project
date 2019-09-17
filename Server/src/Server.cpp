@@ -336,6 +336,7 @@ ClientID Server::addClient(const ClientInfo & client)
             return ClientID(Network::NullID);
     }
     m_clients.emplace(client.m_clientID, client);
+    return client.m_clientID;
 }
 
 void Server::removeClient(auto & itr)
@@ -347,7 +348,7 @@ void Server::removeClient(auto & itr)
     send(itr->second.m_clientID, packet);
 
     //delete pointer to entity
-    delete itr->second.m_character;
+    removeCharacter(itr->second.m_clientID);
     itr = m_clients.erase(itr);
 }
 
@@ -362,8 +363,7 @@ bool Server::removeClient(const ClientID& id)
     stampPacket(PacketType::Disconnect, packet);
     send(id, packet);
 
-    //delete pointer to entity
-    delete itr->second.m_character;
+    removeCharacter(id);
     m_clients.erase(itr);
     return true;
 }
@@ -378,7 +378,7 @@ bool Server::removeClient(const sf::IpAddress& ip, const PortNumber& port)
             sf::Packet packet;
             stampPacket(PacketType::Disconnect, packet);
             send(itr->first, packet);
-            delete itr->second.m_character;
+            removeCharacter(itr->second.m_clientID);
             m_clients.erase(itr);
             return true;
         }
@@ -421,7 +421,7 @@ ClientInfo * Server::findClient(const ClientID& id)
     return nullptr;
 }
 
-Entity * Server::findEntity(const int & id)
+Entity * Server::findEntity(const unsigned & id)
 {
     for (auto &itr : m_clients)
         if (itr.second.m_character->getId() == id)
@@ -492,6 +492,10 @@ void Server::removeCharacter(const ClientID& id)
     if (itr == m_clients.end())
         return;
 
-    delete itr->second.m_character;
-    itr->second.m_character = nullptr;
+    if( itr->second.m_character != nullptr)
+    {
+        mysql._SaveCharacter(itr->second.m_character);
+        delete itr->second.m_character;
+        itr->second.m_character = nullptr;
+    }
 }

@@ -57,7 +57,7 @@ void Intro::onCreate()
 {
     m_timePassed = 0.0f;
     EventManager* evMgr = m_stateMgr->getContext()->m_eventManager;
-    tgui::Gui * gui = m_stateMgr->getContext()->m_gui;
+    //tgui::Gui * gui = m_stateMgr->getContext()->m_gui;
 
     evMgr->addCallback(StateType::Intro, "Esc", &Intro::exit, this);
 }

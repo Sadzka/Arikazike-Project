@@ -6,6 +6,7 @@
 #include "States/StateManager.hpp"
 #include "Entity/Entity.hpp"
 #include "Entity/Directions.hpp"
+#include "Input/Keybinds.hpp"
 
 
 using std::cout;

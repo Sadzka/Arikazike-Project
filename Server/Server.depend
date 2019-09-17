@@ -21,14 +21,14 @@
 	"../../Shared/include/Entity/Components/Component.hpp"
 	<SFML/System.hpp>
 
-1563620716 source:c:\arikazike-project\shared\src\entity\components\health.cpp
+1563627647 source:c:\arikazike-project\shared\src\entity\components\health.cpp
 	"Entity/Components/Health.hpp"
 
 1563620698 c:\arikazike-project\shared\include\entity\components\health.hpp
 	<SFML/Config.hpp>
 	"Entity/Components/Component.hpp"
 
-1563295555 source:c:\arikazike-project\shared\src\entity\entity.cpp
+1563627596 source:c:\arikazike-project\shared\src\entity\entity.cpp
 	"Entity/EntityManager.hpp"
 	"Entity/C_EntityManager.hpp"
 
@@ -37,7 +37,7 @@
 	<functional>
 	"../../Shared/include/Entity/Entity.hpp"
 
-1563295555 c:\arikazike-project\shared\include\entity\entity.hpp
+1568715036 c:\arikazike-project\shared\include\entity\entity.hpp
 	<typeinfo>
 	<string>
 	<SFML/Network.hpp>
@@ -67,7 +67,7 @@
 
 1563295555 c:\arikazike-project\shared\include\entity\directions.hpp
 
-1563618504 source:c:\arikazike-project\shared\src\entity\entitymanager.cpp
+1563627869 source:c:\arikazike-project\shared\src\entity\entitymanager.cpp
 	"../../Shared/include/Entity/EntityManager.hpp"
 
 1563295555 source:c:\arikazike-project\shared\src\entity\entitysnapshot.cpp
@@ -95,7 +95,7 @@
 	<sstream>
 	"Server.hpp"
 
-1563295555 c:\arikazike-project\server\include\server.hpp
+1563650159 c:\arikazike-project\server\include\server.hpp
 	<SFML/Network.hpp>
 	<unordered_map>
 	<functional>
@@ -115,7 +115,7 @@
 1563295555 c:\arikazike-project\shared\include\packettypes.hpp
 	<SFML/Network.hpp>
 
-1563295555 c:\arikazike-project\server\include\database\mysql.hpp
+1563649534 c:\arikazike-project\server\include\database\mysql.hpp
 	<windows.h>
 	<mysql.h>
 	<iostream>
@@ -149,12 +149,12 @@
 
 1476113377 c:\codeblocks\mysql\include\my_alloc.h
 
-1563295555 c:\arikazike-project\server\include\packethandler.hpp
+1563627796 c:\arikazike-project\server\include\packethandler.hpp
 	"ClientInfo.hpp"
 	"Utilities/sha512.h"
-	"../../Shared/include/PacketTypes.hpp"
-	"../../Shared/include/NetworkSettings.hpp"
-	"../../Shared/include/Entity/Entity.hpp"
+	"PacketTypes.hpp"
+	"NetworkSettings.hpp"
+	"Entity/Entity.hpp"
 	"Server.hpp"
 
 1563295555 source:c:\arikazike-project\server\src\main.cpp
@@ -165,13 +165,13 @@
 	"Server.hpp"
 	"Console/Commands.hpp"
 
-1563295555 source:c:\arikazike-project\server\src\packethandler.cpp
+1568715157 source:c:\arikazike-project\server\src\packethandler.cpp
 	"PacketHandler.hpp"
 
-1563295555 source:c:\arikazike-project\server\src\server.cpp
+1563650516 source:c:\arikazike-project\server\src\server.cpp
 	"Server.hpp"
 
-1563620691 source:c:\arikazike-project\server\src\database\mysql.cpp
+1563650740 source:c:\arikazike-project\server\src\database\mysql.cpp
 	"Database/MySQL.hpp"
 	"Server.hpp"
 

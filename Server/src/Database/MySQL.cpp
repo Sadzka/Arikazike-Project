@@ -8,7 +8,7 @@ void MySQL::HTMLEntities(std::string & str)
 {
     for (int j = 0; j < to_replaceSize; j++ )
     {
-        for (int i = 0; i < str.length(); i++ )
+        for (unsigned i = 0; i < str.length(); i++ )
         {
             if(str[i] == to_replace[j])
                 str[i] = 'x';
@@ -40,7 +40,7 @@ int MySQL::_Connect(std::string & username, std::string & password)
     HTMLEntities(username);
     HTMLEntities(password);
 
-    ask = "SELECT salt, password, ID FROM users WHERE username='" + username + "'";
+    ask = "SELECT salt, password, accID FROM `accounts` WHERE username='" + username + "'";
     bool failed = mysql_query(connection, ask.c_str());
     if(!failed)
     {
@@ -51,7 +51,6 @@ int MySQL::_Connect(std::string & username, std::string & password)
         //row[0] -> hash
         //row[1] -> password
         //row[2] -> ID
-
         if( sha512(row[0] + password) == row[1])
         {
             int id = atoi(row[2]);
@@ -65,7 +64,7 @@ int MySQL::_Connect(std::string & username, std::string & password)
 
 bool MySQL::_GetCharacterList(const unsigned int & id, sf::Packet & packet)
 {
-    ask = "SELECT name, CharacterID FROM `characters` WHERE ID='" + std::to_string(id) + "'";
+    ask = "SELECT name, charID FROM `characters` WHERE accId='" + std::to_string(id) + "'";
     bool failed = mysql_query(connection, ask.c_str());
     if(!failed)
     {
@@ -94,9 +93,9 @@ bool MySQL::_GetCharacterList(const unsigned int & id, sf::Packet & packet)
 void MySQL::_GetCharacter(ClientInfo * client, sf::Uint32 characterID, sf::Packet & packet)
 {
 
-    ask =   "SELECT name, x, y, health, mana, location, race FROM `characters`"
-            "WHERE ID='" + std::to_string(client->m_clientID) + "' "
-            "AND CharacterID='" + std::to_string(characterID) + "'";
+    ask =   "SELECT name, x, y, health, mana, location, race FROM `characters` "
+            "WHERE accID='" + std::to_string(client->m_clientID) + "' "
+            "AND charID='" + std::to_string(characterID) + "'";
 
     bool failed = mysql_query(connection, ask.c_str());
     if(failed)
@@ -128,4 +127,28 @@ void MySQL::_GetCharacter(ClientInfo * client, sf::Uint32 characterID, sf::Packe
 
     client->m_character = entity;
     mysql_free_result(result);
+}
+
+void MySQL::_SaveCharacter(Entity * entity)
+{
+    ask =   "UPDATE `characters`"
+            " SET"
+            " x='" + std::to_string((int)entity->getPosition().x) + "',"
+            " y='" + std::to_string((int)entity->getPosition().y) + "',"
+            " health='" + std::to_string(entity->getComponent<CHealth>()->getHealth() ) + "',"
+            " mana='" + std::to_string(entity->getComponent<CMana>()->getMana() ) + "',"
+            " location='" + std::to_string(entity->getLocation()) + "'"
+            " WHERE charID='" + std::to_string(entity->getId()) + "'";
+
+    #ifdef __DEBUG
+
+    bool failed = mysql_query(connection, ask.c_str());
+    if(failed)
+        cout << "Failed to save character!" << entity->getId() << endl;
+
+    #else
+
+    mysql_query(connection, ask.c_str());
+
+    #endif // __DEBUG
 }

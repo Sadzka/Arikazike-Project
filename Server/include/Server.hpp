@@ -90,7 +90,7 @@ public:
     bool isRunning();
 
     ClientInfo * findClient(const ClientID& id);
-    Entity * findEntity(const int & id);
+    Entity * findEntity(const unsigned & id);
     bool getClientInfo(const ClientID& id, ClientInfo& info);
     ClientID getClientID(const sf::IpAddress& ip, const PortNumber& port);
     unsigned int getClientCount();

@@ -66,9 +66,7 @@ void S_Character::onCreate()
     m_circleSelect.setPosition( {25 + 210*m_select, 25}  );
 }
 
-void S_Character::onDestroy()
-{
-}
+void S_Character::onDestroy() {}
 
 void S_Character::update(float & dTime)
 {

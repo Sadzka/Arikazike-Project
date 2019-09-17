@@ -89,6 +89,7 @@ bool StateManager::hasState(const StateType& type)
     }
     return false;
 }
+
 void StateManager::remove(const StateType& type) { m_toRemove.push_back(type); }
 
 void StateManager::processRequests()
@@ -118,6 +119,7 @@ void StateManager::switchTo(const StateType& type)
         }
     }
     // State with type wasn't found.
+
     if (!m_states.empty())
         m_states.back().second->deactivate();
     createState(type);

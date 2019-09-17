@@ -4,25 +4,25 @@ void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * cli
 {
     switch( static_cast<PacketType>(id) )
     {
-    case PacketType::Connect:
+        case PacketType::Connect:
         {
             cout << "Zalogowano pomyslnie\n";
             break;
         }
-    case PacketType::Message:
+        case PacketType::Message:
         {
             std::string message;
             packet >> message;
             std::cout << message << std::endl;
             break;
         }
-    case PacketType::Disconnect:
+        case PacketType::Disconnect:
         {
             cout<<"Dostalem pakiet od servera ze mam DC\n";
             disconnect();
             break;
         }
-    case PacketType::GetCharacterList:
+        case PacketType::GetCharacterList:
         {
             m_shared->m_entityManager->purge();
             int much;
@@ -37,7 +37,12 @@ void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * cli
             m_waitPacket = false;
             break;
         }
-    case PacketType::Move:
+        case PacketType::EnterWorld:
+        {
+            m_waitPacket = false;
+            break;
+        }
+        case PacketType::Move:
         {
             sf::Uint32 id;
             while (packet >> id)
@@ -51,7 +56,7 @@ void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * cli
             }
             break;
         }
-    case PacketType::GetCharacterDetails:
+        case PacketType::GetCharacterDetails:
         {
             for(;;)
             {
@@ -90,7 +95,7 @@ void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * cli
             }
             break;
         }
-    default:
+        default:
         {
             std::cout<<"Unknown packet type " + std::to_string(id) + "\n";
             break;
@@ -372,12 +377,16 @@ void Client::move(const int & x, const int & y)
     if (!m_connected)
         return;
 
+    if(m_player->dx == x && m_player->dy == y)
+        return;
+
     m_player->dx = x;
     m_player->dy = y;
 
+    cout << m_player->getPosition().x << ',' << m_player->getPosition().y << endl;
     sf::Packet packet;
     stampPacket(PacketType::Move, packet);
-    packet << m_player->dx << m_player->dy;
+    packet << m_serverTime.asMilliseconds() << m_player->dx << m_player->dy;
     if (m_socket.send(packet, m_serverIp, m_serverPort) != sf::Socket::Done)
     {
         #ifdef __DEBUG

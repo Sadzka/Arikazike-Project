@@ -11,7 +11,7 @@ void S_Game::loadGUI()
 
 void S_Game::onCreate()
 {
-    EventManager* evMgr = m_stateMgr->getContext()->m_eventManager;
+    //EventManager* evMgr = m_stateMgr->getContext()->m_eventManager;
 
 /*
     evMgr->addCallback(StateType::Game, "A", &S_Game::move, this);
@@ -46,23 +46,6 @@ void S_Game::update(float & dTime)
     m_stateMgr->getContext()->m_entityManager->update(dTime);
     m_stateMgr->getContext()->m_client->update(dTime);
     move(nullptr);
-
-/*
-    Client * client = m_stateMgr->getContext()->m_client;
-    int dx = 0;
-    int dy = 0;
-
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::A ) )
-        dx--;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::D ) )
-        dx++;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::W ) )
-        dy--;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::S ) )
-        dy++;
-
-    client->move(dx, dy);
-    */
 }
 
 void S_Game::draw()
@@ -77,12 +60,10 @@ void S_Game::draw()
 
 void S_Game::activate()
 {
-
-    while(m_stateMgr->getContext()->m_client->isWaiting()) { };
+    while(m_stateMgr->getContext()->m_client->isWaiting()) { /* Do Nothing */};
 
     loadGUI();
-    tgui::Gui * gui = m_stateMgr->getContext()->m_gui;
-
+    //tgui::Gui * gui = m_stateMgr->getContext()->m_gui;
 }
 
 void S_Game::deactivate()
@@ -96,35 +77,18 @@ void S_Game::move(EventDetails* details)
 
     int dx = 0;
     int dy = 0;
+    //if( sf::Keyboard::isKeyPressed( sf::Keyboard::Key( m_stateMgr->getContext()->m_keybinds->find( (int)Action::MoveLeft )->first) ) )
+    //    dx--;
+    std::vector < sf::Keyboard::Key > binds = *m_stateMgr->getContext()->m_keybinds;
 
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::A ) )
-        dx--;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::D ) )
-        dx++;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::S ) )
-        dy++;
-    if( sf::Keyboard::isKeyPressed( sf::Keyboard::W ) )
+    if( sf::Keyboard::isKeyPressed( binds[(int)Action::MoveUp] ) )
         dy--;
-
-/*
-    if(details->m_name == "A" )
-        dx--;
-    else if(details->m_name == "D" )
-        dx++;
-    else if(details->m_name == "S" )
+    if( sf::Keyboard::isKeyPressed( binds[(int)Action::MoveDown] ) )
         dy++;
-    else if(details->m_name == "W" )
-        dy--;
+    if( sf::Keyboard::isKeyPressed( binds[(int)Action::MoveLeft] ) )
+        dx--;
+    if( sf::Keyboard::isKeyPressed( binds[(int)Action::MoveRight] ) )
+        dx++;
 
-    if(details->m_name == "SR" || details->m_name == "WR" )
-    {
-        dy = 0;
-    }
-    else if(details->m_name == "DR" || details->m_name == "AR" )
-    {
-        dx = 0;
-    }
-*/
     m_stateMgr->getContext()->m_client->move(dx, dy);
-
 }

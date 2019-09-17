@@ -10,8 +10,11 @@ void Handler(sf::IpAddress& ip, const PortNumber& port, const PacketID& pid, sf:
         {
             stampPacket(PacketType::Disconnect, packetToSend);
             server->send(ip, port, packetToSend);
-            cout << "polaczony juz\n";
-            /// \todo ///
+#ifdef __DEBUG
+            cout << "Proba zalogowania na polaczone konto " << id
+                 << " " << server->findClient(id)->m_username
+                 << " " << server->findClient(id)->m_clientIP << endl;
+#endif // __DEBUG
         }
         else if((PacketType)pid == PacketType::Disconnect)
         {
@@ -38,6 +41,10 @@ void Handler(sf::IpAddress& ip, const PortNumber& port, const PacketID& pid, sf:
         }
         else if ((PacketType)pid == PacketType::GetCharacterList)
         {
+#ifdef __DEBUG
+            cout << "Otrzymanie listy postaci " << endl;
+#endif // __DEBUG
+
             stampPacket(PacketType::GetCharacterList, packetToSend);
 
             server->mysql._GetCharacterList(id, packetToSend);
@@ -45,11 +52,17 @@ void Handler(sf::IpAddress& ip, const PortNumber& port, const PacketID& pid, sf:
         }
         else if ((PacketType)pid == PacketType::EnterWorld)
         {
+
             ClientInfo * client = server->findClient(id);
-            if(client->m_character != nullptr) return; //already in game, ignore
+            if(client->m_character != nullptr)
+                return; //already in game, ignore
 
             sf::Uint64 characterID;
             packet>>characterID;
+
+#ifdef __DEBUG
+            cout << "Wejscie do swiata " << characterID << endl;
+#endif // __DEBUG
 
             stampPacket(PacketType::GetCharacterDetails, packetToSend);
             server->mysql._GetCharacter(client, characterID, packetToSend);
@@ -58,12 +71,21 @@ void Handler(sf::IpAddress& ip, const PortNumber& port, const PacketID& pid, sf:
         else if ((PacketType)pid == PacketType::Move)
         {
             sf::Int8 x, y;
+            sf::Int32 hearhbeat;
+
+            packet >> hearhbeat;
             packet >> x >> y;
+
             Entity * unit = server->findClient(id)->m_character;
+
             if(unit != nullptr)
             {
-                unit->setMoving(x, y);
+                if( unit->getLastHearhbeat() < hearhbeat )
+                {
+                    unit->setMoving(x, y);
+                }
             }
+
         }
         else if ((PacketType)pid == PacketType::GetCharacterDetails)
         {

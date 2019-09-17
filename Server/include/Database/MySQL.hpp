@@ -31,6 +31,7 @@ public:
     int  _Connect(std::string & username, std::string & password);
     bool _GetCharacterList(const sf::Uint32 & id, sf::Packet & packet);
     void _GetCharacter(ClientInfo * client, sf::Uint32 characterID, sf::Packet & packet);
+    void _SaveCharacter(Entity * entity);
 
 
     bool connect();

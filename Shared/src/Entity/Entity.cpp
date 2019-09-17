@@ -8,7 +8,7 @@ Entity::Entity(C_EntityManager * entitymgr) : m_name("Unknown"), m_type(EntityTy
                  m_spritesheet(entitymgr->getShared()->m_textureManager), m_speed(96), dx(0), dy(0), m_lastUpdate(0) { }
                 //, m_spritesheet(entityMgr->getShared()->m_textureManager)
 #else
-Entity::Entity() : m_name("Unknown"), m_type(EntityType::Base), m_id(0), m_state(EntityState::Idle), dx(0), dy(0), m_speed(96)
+Entity::Entity() : m_name("Unknown"), m_type(EntityType::Base), m_id(0), m_state(EntityState::Idle), dx(0), dy(0), m_speed(96), m_lasthearthbeat(0)
                  { }
 #endif // __CLIENT
 
@@ -32,7 +32,9 @@ void Entity::update(const float & dTime)
     else if(dx == -1) m_spritesheet.setDirection(Direction::Left);
     else if(dy == 1) m_spritesheet.setDirection(Direction::Down);
     else if(dy == -1) m_spritesheet.setDirection(Direction::Up);
+#else
 
+    std::cout << getPosition().x << ',' << getPosition().y << std::endl;
 #endif // __CLIENT
 
     move(dx * dTime * getSpeed(), dy * dTime * getSpeed() );
@@ -157,6 +159,8 @@ EntitySnapshot Entity::getSnapshot()
     snapshot.dy = dy;
     return snapshot;
 }
+void Entity::setLastHearhbeat(const sf::Int32 & time) { m_lasthearthbeat = time; }
+sf::Int32 Entity::getLastHearhbeat()const { return m_lasthearthbeat; }
 #endif // __CLIENT
 
 sf::Packet& operator << (sf::Packet& packet, const Entity& entity)

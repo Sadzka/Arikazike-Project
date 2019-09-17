@@ -12,11 +12,12 @@ Game::Game() : m_window("Arikazike", sf::Vector2u(1366, 768) ),
     m_shared.m_client           = &m_client;
     m_shared.m_entityManager    = &m_entityManager;
     m_shared.m_gameMap          = &m_map;
+    m_shared.m_keybinds         = &m_keybinds;
 
     //std::cout << " Entity manager id: "<< <<"\n\n";
 
     m_stateManager.switchTo(StateType::Intro);
-
+    loadKeybinds();
     /// \todo
     /// Temporary
     m_maxFPS = 30;
@@ -71,3 +72,23 @@ void Game::FPSLimit()
 
 sf::Time Game::getElapsed(){ return m_deltaTime; }
 Window* Game::getWindow() { return &m_window; }
+
+void Game::loadKeybinds() {
+    std::fstream file;
+    file.open("keybinds.conf");
+    if(file.good()) {
+        //todo load keys
+        file.close();
+    }
+    else {
+        cout << "Failed to open keybinds, loading default.\n";
+        loadKeybindsDefault();
+    }
+}
+
+void Game::loadKeybindsDefault() {
+    m_keybinds.push_back( sf::Keyboard::W ); //Action::MoveUp
+    m_keybinds.push_back( sf::Keyboard::S ); //Action::MoveDown
+    m_keybinds.push_back( sf::Keyboard::A ); //Action::MoveLeft
+    m_keybinds.push_back( sf::Keyboard::D ); //Action::MoveRight
+}

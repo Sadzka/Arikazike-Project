@@ -7,8 +7,8 @@ struct Binding
 {
     Events          m_events;
     std::string     m_name;
-    int             c; // Count of events that are "happening".
     EventDetails    m_details;
+    int             c; // Count of events that are "happening".
     Binding(const std::string& name) : m_name(name), m_details(name), c(0) {}
     void BindEvent(EventType type, EventInfo info = EventInfo())
     {

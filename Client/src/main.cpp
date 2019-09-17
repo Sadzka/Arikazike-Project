@@ -2,7 +2,7 @@
 #include <fstream>
 
 
-int main(int argc, void** argv[])
+int main(int argc, char* argv[])
 {
     #ifdef __DEBUG
     std::cout<<"GCC: "<<__GNUC__<<"."<<__GNUC_MINOR__<<"."<<__GNUC_PATCHLEVEL__<<std::endl;

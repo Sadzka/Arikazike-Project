@@ -1,9 +1,9 @@
 #pragma once
 #include "ClientInfo.hpp"
 #include "Utilities/sha512.h"
-#include "../../Shared/include/PacketTypes.hpp"
-#include "../../Shared/include/NetworkSettings.hpp"
-#include "../../Shared/include/Entity/Entity.hpp"
+#include "PacketTypes.hpp"
+#include "NetworkSettings.hpp"
+#include "Entity/Entity.hpp"
 #include "Server.hpp"
 
 using std::cout;

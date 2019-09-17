@@ -20,7 +20,7 @@ Map::~Map(){
 
 void Map::purgeMap()
 {
-    for (int i = 0; i < m_mapsize.x; i++)
+    for (unsigned i = 0; i < m_mapsize.x; i++)
     {
         if(m_map[i])
         {
@@ -103,18 +103,17 @@ void Map::update(float l_dT)
 
 void Map::draw()
 {
-	sf::RenderWindow* wind = m_shared->m_wind->getRenderWindow();
-	sf::FloatRect viewSpace = m_shared->m_wind->getViewSpace();
+	//sf::RenderWindow* wind = m_shared->m_wind->getRenderWindow();
+	//sf::FloatRect viewSpace = m_shared->m_wind->getViewSpace();
 
-    for(int i=0; i<m_mapsize.x; i++)
+    for(unsigned i=0; i<m_mapsize.x; i++)
     {
-        for(int j=0; j<m_mapsize.y; j++)
+        for(unsigned j=0; j<m_mapsize.y; j++)
         {
             if(m_map[j][i] != -1)
             {
                 m_tileMap[ m_map[j][i] ]->m_sprite.setPosition( Tiles::size*i, Tiles::size*j );
                 m_shared->m_wind->draw( m_tileMap[ m_map[j][i] ]->m_sprite );
-
             }
         }
     }

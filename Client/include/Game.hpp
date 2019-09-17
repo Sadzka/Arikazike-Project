@@ -8,7 +8,7 @@
 #include "Entity/C_EntityManager.hpp"
 #include "Entity/Components/CStats.hpp"
 #include "Entity/Components/CMana.hpp"
-
+#include "Input/Keybinds.hpp"
 
 class Game
 {
@@ -19,7 +19,6 @@ class Game
     ///
     sf::Clock           m_clock;
     sf::Time            m_deltaTime;
-
     tgui::Gui           m_gui;
     Shared              m_shared;
     Window              m_window;
@@ -28,6 +27,8 @@ class Game
     C_EntityManager     m_entityManager;
     Map                 m_map;
     Client              m_client;
+
+    std::vector < sf::Keyboard::Key > m_keybinds;
 public:
     Game();
     ~Game();
@@ -42,6 +43,9 @@ public:
     void restartClock();
 
     Window* getWindow();
+
+    void loadKeybinds();
+    void loadKeybindsDefault();
 
     ///
     void moveTest(EventDetails* details);

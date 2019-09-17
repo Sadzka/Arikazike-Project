@@ -53,7 +53,6 @@ Entity * C_EntityManager::add(Entity * entity)
 
 	for( auto x : m_entities)
         cout << x.second->getName() << " " << x.second->getId() << " " << x.second->getPosition().x << " " << x.second->getPosition().y << endl;
-    throw 0;
 
 	/// \todo
 	//return find(m_idCounter-1);

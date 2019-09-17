@@ -7,12 +7,13 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/Server" prefix_auto="1" extension_auto="1" />
+				<Option output="Server - Debug" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-D__DEBUG" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -31,8 +32,53 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-Wno-reorder" />
+			<Add option="-D__SERVER" />
+			<Add directory="C:/Codeblocks/MySQL/include" />
+			<Add directory="../Shared/include" />
+			<Add directory="../Shared/src" />
+			<Add directory="src" />
+			<Add directory="include" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Linker>
+			<Add library="libmysql" />
+			<Add directory="C:/Codeblocks/MySQL/lib/" />
+		</Linker>
+		<Unit filename="../Shared/include/Entity/Components/CMana.hpp" />
+		<Unit filename="../Shared/include/Entity/Components/CStats.hpp" />
+		<Unit filename="../Shared/include/Entity/Components/Component.hpp" />
+		<Unit filename="../Shared/include/Entity/Components/Health.hpp" />
+		<Unit filename="../Shared/include/Entity/Directions.hpp" />
+		<Unit filename="../Shared/include/Entity/Entity.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityManager.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityRace.hpp" />
+		<Unit filename="../Shared/include/Entity/EntitySnapshot.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityState.hpp" />
+		<Unit filename="../Shared/include/Entity/EntityType.hpp" />
+		<Unit filename="../Shared/include/Locations.hpp" />
+		<Unit filename="../Shared/include/NetworkSettings.hpp" />
+		<Unit filename="../Shared/include/PacketTypes.hpp" />
+		<Unit filename="../Shared/src/Entity/Components/CMana.cpp" />
+		<Unit filename="../Shared/src/Entity/Components/CStats.cpp" />
+		<Unit filename="../Shared/src/Entity/Components/Health.cpp" />
+		<Unit filename="../Shared/src/Entity/Entity.cpp" />
+		<Unit filename="../Shared/src/Entity/EntityManager.cpp" />
+		<Unit filename="../Shared/src/Entity/EntitySnapshot.cpp" />
+		<Unit filename="../Shared/src/Locations.cpp" />
+		<Unit filename="include/ClientInfo.hpp" />
+		<Unit filename="include/Console/Commands.hpp" />
+		<Unit filename="include/Database/MySQL.hpp" />
+		<Unit filename="include/PacketHandler.hpp" />
+		<Unit filename="include/Server.hpp" />
+		<Unit filename="include/Utilities/sha512.h" />
+		<Unit filename="include/test.h" />
+		<Unit filename="src/Console/Commands.cpp" />
+		<Unit filename="src/Database/MySQL.cpp" />
+		<Unit filename="src/PacketHandler.cpp" />
+		<Unit filename="src/Server.cpp" />
+		<Unit filename="src/Utilities/sha512.cpp" />
+		<Unit filename="src/main.cpp" />
+		<Unit filename="src/test.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
