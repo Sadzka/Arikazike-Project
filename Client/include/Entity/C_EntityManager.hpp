@@ -17,5 +17,5 @@ public:
 	Shared * getShared();
     Entity * add(const EntityType& type, const std::string& name, const sf::Uint32 & id);
     Entity * add(Entity * entity);
-    void updateEntity(sf::Packet & packet, const int & id);
+    void updateEntity(EntitySnapshot & snapshot, const int & id);
 };

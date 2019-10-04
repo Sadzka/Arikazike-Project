@@ -46,8 +46,11 @@ void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * cli
         {
             sf::Uint32 id;
             while (packet >> id)
-                m_shared->m_entityManager->updateEntity(packet, id);
-
+            {
+                EntitySnapshot snapshot;
+                packet >> snapshot;
+                m_shared->m_entityManager->updateEntity(snapshot, id);
+            }
 
             if(m_unknownEntities.size() > 0)
             {
@@ -382,8 +385,6 @@ void Client::move(const int & x, const int & y)
 
     m_player->dx = x;
     m_player->dy = y;
-
-    cout << m_player->getPosition().x << ',' << m_player->getPosition().y << endl;
     sf::Packet packet;
     stampPacket(PacketType::Move, packet);
     packet << m_serverTime.asMilliseconds() << m_player->dx << m_player->dy;

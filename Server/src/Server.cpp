@@ -75,6 +75,7 @@ void Server::disconnectAll()
         itr++;
     }
 }
+
 /*
 void Server::bindTimeoutHandler(void(*handler)(const ClientID&))
 {
@@ -499,3 +500,5 @@ void Server::removeCharacter(const ClientID& id)
         itr->second.m_character = nullptr;
     }
 }
+
+Clients Server::getClients() { return m_clients; }

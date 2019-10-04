@@ -33,7 +33,7 @@ class Entity
     friend class Server;
     ///
 
-    Components      m_components;
+    //Components      m_components;
     Location        m_location;
     std::string     m_name;
     EntityType      m_type;
@@ -43,10 +43,16 @@ class Entity
     sf::Int8        dx;
     sf::Int8        dy;
 
+    //Stats
+    sf::Uint16      stamina;
+    sf::Uint16      strength;
+    sf::Uint16      intelect;
+    sf::Uint16      agility;
+    sf::Uint16      spirit;
+
 #ifdef __CLIENT
     SpriteSheet m_spritesheet;
     sf::Uint64 m_lastUpdate;
-#else
     sf::Int32 m_lasthearthbeat;
 #endif // __CLIENT
 
@@ -72,6 +78,7 @@ public:
 
     template <class T>
 
+    /*
     T* addComponent()
     {
         //std::cout<<"adding: "<<typeid(T).hash_code() <<" {aka} "<< typeid(T).name() <<std::endl;
@@ -99,7 +106,7 @@ public:
         //throw std::string("Not Found Component" ) ;
         return nullptr;
     }
-
+*/
     void setType(const EntityType & type);
     void setPosition(float x, float y);
     void setPosition(sf::Vector2f pos);

@@ -33,8 +33,6 @@ void Entity::update(const float & dTime)
     else if(dy == 1) m_spritesheet.setDirection(Direction::Down);
     else if(dy == -1) m_spritesheet.setDirection(Direction::Up);
 #else
-
-    std::cout << getPosition().x << ',' << getPosition().y << std::endl;
 #endif // __CLIENT
 
     move(dx * dTime * getSpeed(), dy * dTime * getSpeed() );
@@ -83,7 +81,7 @@ void Entity::move(float x, float y)
     updateAABB();
 }
 
-void Entity::setType(const EntityType & type) { m_type = type; }
+//void Entity::setType(const EntityType & type) { m_type = type; }
 
 void Entity::setPosition(float x, float y)
 {
@@ -142,8 +140,10 @@ void Entity::applySnapshot(EntitySnapshot& snapshot)
 {
     /// \todo szacowanie pozycji ///
     m_position = snapshot.position;
+    ///
     dx = snapshot.dx;
     dy = snapshot.dy;
+    m_lasthearthbeat = m_lastUpdate;
 }
 
 void Entity::setLastUpdate( const sf::Int64 & time) { m_lastUpdate = time; }

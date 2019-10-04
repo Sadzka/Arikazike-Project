@@ -99,5 +99,6 @@ public:
     sf::Time getServerTime()const;
 
     void removeCharacter(const ClientID& id);
+    Clients getClients();
 };
 

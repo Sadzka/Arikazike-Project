@@ -36,6 +36,7 @@ Entity * C_EntityManager::add(const EntityType& type, const std::string& name, c
 
 	/// \todo
 	//return find(m_idCounter-1);
+	return nullptr;
 }
 
 Entity * C_EntityManager::add(Entity * entity)
@@ -56,13 +57,11 @@ Entity * C_EntityManager::add(Entity * entity)
 
 	/// \todo
 	//return find(m_idCounter-1);
+	return nullptr;
 }
 
-void C_EntityManager::updateEntity(sf::Packet & packet, const int & id)
+void C_EntityManager::updateEntity(EntitySnapshot & snapshot, const int & id)
 {
-    EntitySnapshot snapshot;
-    packet >> snapshot;
-
     Entity * entity = find(id);
     if( entity == nullptr)
     {
