@@ -6,7 +6,7 @@ S_Game::~S_Game() { }
 
 void S_Game::loadGUI()
 {
-
+    /// TODO Troche gui i menu pod escape
 }
 
 void S_Game::onCreate()
@@ -51,6 +51,18 @@ void S_Game::update(float & dTime)
 void S_Game::draw()
 {
     m_view.setCenter( m_stateMgr->getContext()->m_client->getPlayer()->getPosition() );
+    if(m_view.getCenter().x - m_stateMgr->getContext()->m_wind->getRenderWindow()->getSize().x/2 < 0)
+        m_view.setCenter( {m_stateMgr->getContext()->m_wind->getRenderWindow()->getSize().x/2, m_view.getCenter().y} );
+    else if(m_view.getCenter().x + m_stateMgr->getContext()->m_wind->getRenderWindow()->getSize().x/2
+            > m_stateMgr->getContext()->m_gameMap->getmapsize().x*64)
+        m_view.setCenter( {m_stateMgr->getContext()->m_gameMap->getmapsize().x*64 - m_stateMgr->getContext()->m_wind->getRenderWindow()->getSize().x/2, m_view.getCenter().y} );
+
+    if(m_view.getCenter().y - m_stateMgr->getContext()->m_wind->getRenderWindow()->getSize().y/2 < 0)
+        m_view.setCenter( {m_view.getCenter().x, m_stateMgr->getContext()->m_wind->getRenderWindow()->getSize().y/2} );
+    else if(m_view.getCenter().y + m_stateMgr->getContext()->m_wind->getRenderWindow()->getSize().y/2
+            > m_stateMgr->getContext()->m_gameMap->getmapsize().y*64)
+        m_view.setCenter( {m_view.getCenter().x, m_stateMgr->getContext()->m_gameMap->getmapsize().y*64 - m_stateMgr->getContext()->m_wind->getRenderWindow()->getSize().y/2} );
+
     m_stateMgr->getContext()->m_wind->getRenderWindow()->setView(m_view );
 
     m_stateMgr->getContext()->m_gameMap->draw();
@@ -74,6 +86,7 @@ void S_Game::deactivate()
 
 void S_Game::move(EventDetails* details)
 {
+    if(!m_stateMgr->getContext()->m_wind->getRenderWindow()->hasFocus()) return;
 
     int dx = 0;
     int dy = 0;
@@ -89,6 +102,12 @@ void S_Game::move(EventDetails* details)
         dx--;
     if( sf::Keyboard::isKeyPressed( binds[(int)Action::MoveRight] ) )
         dx++;
+
+    if( m_stateMgr->getContext()->m_gameMap->isCollision(dx, dy) )
+    {
+        dx = 0;
+        dy = 0;
+    }
 
     m_stateMgr->getContext()->m_client->move(dx, dy);
 }

@@ -78,7 +78,6 @@
 		<Unit filename="src/Server.cpp" />
 		<Unit filename="src/Utilities/sha512.cpp" />
 		<Unit filename="src/main.cpp" />
-		<Unit filename="src/test.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

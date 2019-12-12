@@ -1,6 +1,6 @@
 #include "Game.hpp"
 
-Game::Game() : m_window("Arikazike", sf::Vector2u(1366, 768) ),
+Game::Game() : m_window("Arikazike", sf::Vector2u(1000, 800) ),
                m_stateManager(&m_shared), m_entityManager(&m_shared), m_client(&m_shared), m_map(&m_shared )
 {
     m_shared.m_wind             = &m_window;

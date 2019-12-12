@@ -114,7 +114,7 @@ void Intro::login(EventDetails* details)
     }
     else if(result == 5)
     {
-        w->setText("You are already logged in.");
+        w->setText("Invalid username or password.");
     }
     else
     {

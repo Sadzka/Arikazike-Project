@@ -68,7 +68,7 @@ void Map::loadMap(const std::string& path)
 		    sf::Uint32 m_collisionsNumber;
 		    mapFile >> m_collisionsNumber;
 		    m_noCollision = new sf::Uint32[m_collisionsNumber];
-            for (sf::Uint32 i = 0; i < m_collisionsNumber; i++)
+            for (int i = 0; i < m_collisionsNumber; i++)
                 mapFile >> m_noCollision[i];
 
 
@@ -137,18 +137,16 @@ void Map::draw()
     }
 }
 
-void Map::setPlayer(Entity * player) { m_player = player; }
-
 const sf::Vector2u& Map::getmapsize()const { return m_mapsize; }
 
 void Map::setCurrentState(State * state) { m_currentState = state; }
 
-bool Map::isCollision( const int &dx, const int &dy  )
+bool Map::isCollision( sf::Vector2f pos )
 {
-    sf::Vector2i cords = sf::Vector2i( (m_player->getPosition().x + Tiles::size*dx/4)/Tiles::size,
-                                       (m_player->getPosition().y + Tiles::size*dy/2)/Tiles::size );
+    sf::Vector2i cords = { pos.x / Tiles::size, pos.y / Tiles::size };
 
-    for(sf::Uint32 i=0; i<m_collisionsNumber; i++)
+
+    for(int i=0; i<m_collisionsNumber; i++)
     {
         if( m_map[cords.x][cords.y] == m_noCollision[i] )
             return false;

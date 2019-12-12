@@ -19,7 +19,9 @@ void Server::connectMySQL()
     std::cout << "Connecting to MySQL server... \n";
     if(!mysql.connect())
     {
-        std::cout << "FATAL-ERROR: Failed to connect to database!\n";
+        std::cout << "FATAL-ERROR: Failed to connect to database!\nPress r to retry.\n";
+        char x = getchar();
+        cout << x << endl;
         stop();
     }
     else

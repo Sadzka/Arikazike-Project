@@ -25,9 +25,11 @@ class Map
 	State                 * m_currentState;
 	Shared                * m_shared;
 	sf::Uint32              m_tileId;
+	sf::Uint32              m_collisionsNumber;
+	sf::Uint32            * m_noCollision;
 	//UsedTextures            m_usedTextures; /// idk \todo
 	sf::Int16            ** m_map;
-	//Entity                * m_entity;
+	Entity                * m_player;
 
 	//unsigned int ConvertCoords(unsigned int l_x, unsigned int l_y); // Method for converting 2D coordinates to 1D ints.
 
@@ -40,10 +42,12 @@ public:
 	~Map();
 
 	const sf::Vector2u& getmapsize()const;
+	void setPlayer(Entity * player);
 
-	void loadMap(const std::string& l_path);
+	void loadMap(const std::string& path);
 
-	void update(float l_dT);
+	void update(float dT);
 	void draw();
     void setCurrentState(State * state);
+    bool isCollision( const int &dx, const int &dy );
 };

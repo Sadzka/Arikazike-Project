@@ -81,7 +81,7 @@ void Entity::move(float x, float y)
     updateAABB();
 }
 
-//void Entity::setType(const EntityType & type) { m_type = type; }
+void Entity::setType(const EntityType & type) { m_type = type; }
 
 void Entity::setPosition(float x, float y)
 {

@@ -87,6 +87,7 @@ void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * cli
                     if(m_shared->m_entityManager->getSize() == 1)
                     {
                         m_player = entity;
+                        m_shared->m_gameMap->setPlayer(m_player);
                         m_waitPacket = false;
                     }
                 }
@@ -112,6 +113,7 @@ Client::Client(Shared * shared) : m_listenThread(&Client::listen, this), m_share
     m_connected = false;
     m_serverIp = sf::IpAddress::getLocalAddress();
     m_serverPort = int(Network::ServerPort);
+    getServerIP();
     // m_serverIp = sf::IpAddress::getPublicAddress();
     std::cout << "Twoj adres IP: " <<sf::IpAddress::getLocalAddress() << ":" << int(Network::ClientsPort) <<std::endl;
     std::cout << "Server IP: " << m_serverIp << ":" << m_serverPort <<std::endl;
@@ -121,6 +123,21 @@ Client::Client(Shared * shared) : m_listenThread(&Client::listen, this), m_share
 Client::~Client()
 {
     m_socket.unbind();
+}
+
+void Client::getServerIP()
+{
+    std::fstream file;
+    file.open("Data/server", std::ios::in);
+    if( file.good() )
+    {
+        file >> m_serverIp;
+    }
+    else
+    {
+        std::cerr << "Nie mozna otworzyc pliku Data/server! \n" << endl;
+    }
+    file.close();
 }
 
 bool Client::disconnect()
@@ -254,6 +271,7 @@ void Client::update(const float & time)
 }
 
 Entity * Client::getPlayer() { return m_player; }
+
 void stampPacket(const PacketType& type, sf::Packet& packet) {packet << sf::Uint16(type);}
 
 bool Client::isWaiting() { return m_waitPacket; }

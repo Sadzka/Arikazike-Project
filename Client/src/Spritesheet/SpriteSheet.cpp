@@ -42,6 +42,7 @@ bool SpriteSheet::loadSheet(const std::string& file)
             {
 				keystream >> m_spriteSize.x >> m_spriteSize.y;
 				setSpriteSize(m_spriteSize);
+				m_sprite.setOrigin( m_spriteSize.x/2, m_spriteSize.y/2 );
 			}
 			else if(type == "Scale")
             {

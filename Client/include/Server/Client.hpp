@@ -2,6 +2,7 @@
 #include <iostream>
 #include <SFML/Network.hpp>
 #include <functional>
+#include <fstream>
 #include "Shared.hpp"
 #include "PacketTypes.hpp"
 #include "NetworkSettings.hpp"
@@ -43,6 +44,7 @@ class Client
     bool            m_waitPacket;
 
     void handlePacket(const sf::Uint16& id, sf::Packet& packet, Client* client);
+    void getServerIP();
 
 public:
     Client(Shared * shared);
