@@ -41,9 +41,9 @@ void Game::render()
 {
     m_window.beginDraw();
 
-    m_gui.draw();
     m_stateManager.draw();
 
+    m_gui.draw();
 
     m_window.endDraw();
 }

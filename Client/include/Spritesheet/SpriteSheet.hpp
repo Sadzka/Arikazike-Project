@@ -44,4 +44,6 @@ public:
 
     void update(const float & dTime);
     void draw(sf::RenderWindow* window);
+
+    void changeTexture(const std::string &name);
 };

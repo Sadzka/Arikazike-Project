@@ -14,6 +14,7 @@ using std::endl;
 
 class S_Game : public State
 {
+    int selectedWeapon;
     void loadGUI();
     void exit(EventDetails* details);
 

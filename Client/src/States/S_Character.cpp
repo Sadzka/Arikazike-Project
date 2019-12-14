@@ -24,6 +24,7 @@ void S_Character::loadGUI()
     gui->add(buttonLogout, "Logout");
     // Create the Create button
     auto buttonCreate = tgui::Button::copy(buttonEnter);
+    buttonCreate->setEnabled(false); ///DEBUG
     buttonCreate->setText("Create");
     buttonCreate->setPosition({"100% - 310", "100% - 60"});
     gui->add(buttonCreate, "Create");

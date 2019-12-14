@@ -31,7 +31,7 @@ const sf::Texture& TextureManager::getResource( const std::string& filename )
 bool TextureManager::loadResource( const std::string & filename )
 {
     // The image exist
-
+    std::cout << "DEBUG_MESSAGE: loading texture: " << filename << std::endl;
     for( auto it = textures.begin(); it !=  textures.end(); it++)
     {
         if( filename == it->first )

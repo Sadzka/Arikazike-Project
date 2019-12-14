@@ -30,6 +30,7 @@ bool SpriteSheet::loadSheet(const std::string& file)
 				}
 				std::string texture;
 				keystream >> texture;
+				texture = "data/img/Units/" + texture;
 				if (!m_textureManager->loadResource(texture))
                 {
 					std::cerr << "! Could not set up the texture: " << texture << std::endl;
@@ -120,7 +121,7 @@ void SpriteSheet::cropSprite(const sf::IntRect& rect){ m_sprite.setTextureRect(r
 bool SpriteSheet::setAnimation(const std::string& name, const bool& play, const bool& loop)
 {
 	auto itr = m_animations.find(name);
-	if (itr == m_animations.end()){ return false; }
+	if (itr == m_animations.end()){ std::cout << "Nie znaleziono animacji \n"; return false; }
 	if (itr->second == m_animationCurrent){ return false; }
 	if (m_animationCurrent){ m_animationCurrent->stop(); }
 	m_animationCurrent = itr->second;
@@ -134,4 +135,10 @@ void SpriteSheet::setAlpha(const sf::Uint8 & alpha) { m_sprite.setColor( sf::Col
 
 void SpriteSheet::update(const float & dTime){ m_animationCurrent->update( dTime ); }
 void SpriteSheet::draw(sf::RenderWindow* window) { window->draw(m_sprite); }
+
+void SpriteSheet::changeTexture(const std::string &name)
+{
+    m_texture = "data/img/Units/" + name;
+    m_sprite.setTexture(m_textureManager->getResource( m_texture));
+}
 

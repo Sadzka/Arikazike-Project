@@ -7,10 +7,10 @@ class SpriteSheet;
 class Animation{
 	friend class SpriteSheet;
 
-	unsigned int            m_frameCurrent;
-	unsigned int            m_frameStart;
-	unsigned int            m_frameEnd;
-	unsigned int            m_frameRow;
+	int                     m_frameCurrent;
+	int                     m_frameStart;
+	int                     m_frameEnd;
+	int                     m_frameRow;
 	int                     m_frameActionStart;
 	int                     m_frameActionEnd;
 	float                   m_frameTime;
@@ -20,6 +20,7 @@ class Animation{
 
 	std::string             m_name;
 	SpriteSheet           * m_spriteSheet;
+	SpriteSheet           * m_spriteSheetWeapon;
 
 public:
 	Animation();

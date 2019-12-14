@@ -13,6 +13,7 @@ enum class PacketType
     EnterWorld = 5,
     Move = 6,
     GetCharacterDetails = 7,
+    Attack = 8,
     OutOfBounds //always last
 };
 

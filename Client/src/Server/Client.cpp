@@ -76,6 +76,7 @@ void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * cli
                     {
                     case EntityRace::Human:
                         entity->getSpriteSheet().loadSheet("Data\\Units\\Human.txt");
+                        entity->getSpriteSheetWeapon().loadSheet("Data\\Units\\HumanWeapon.txt");
                         //entity->setTexture( m_shared->m_textureManager->getResource("Data\\img\\Units\\Human.png") );
                         break;
                     default:
@@ -398,6 +399,8 @@ void Client::move(const int & x, const int & y)
     if (!m_connected)
         return;
 
+    if (m_player->getSpriteSheet().getCurrentAnim()->getName() == "Attack") return;
+
     if(m_player->dx == x && m_player->dy == y)
         return;
 
@@ -412,6 +415,32 @@ void Client::move(const int & x, const int & y)
         std::cout << "Failed to send packet! \n";
         #endif // __DEBUG
     }
+}
+
+void Client::attack(const bool & att)
+{
+
+    if (!m_connected)
+        return;
+
+    if (m_player->getSpriteSheet().getCurrentAnim()->getName() == "Walk") return;
+
+    m_player->setAttacking(att);
+
+    if (m_player->getSpriteSheet().getCurrentAnim()->getName() == "Attack") return;
+
+
+    /*
+    sf::Packet packet;
+    stampPacket(PacketType::Attack, packet);
+    packet << m_serverTime.asMilliseconds();
+    if (m_socket.send(packet, m_serverIp, m_serverPort) != sf::Socket::Done)
+    {
+        #ifdef __DEBUG
+        std::cout << "Failed to send packet! \n";
+        #endif // __DEBUG
+    }
+    */
 }
 
 void Client::getCharacterDetails()

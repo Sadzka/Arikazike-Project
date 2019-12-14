@@ -10,7 +10,7 @@ Animation::~Animation(){}
 void Animation::cropSprite()
 {
 	m_spriteSheet->cropSprite( sf::IntRect(m_spriteSheet->getSpriteSize().x * m_frameCurrent,
-                                       int(m_spriteSheet->getDirection()) * 64,
+                                       int(m_spriteSheet->getDirection()) * 64 + m_frameRow * 256,
                                            m_spriteSheet->getSpriteSize().x,
                                            m_spriteSheet->getSpriteSize().y) );
 }
@@ -22,7 +22,6 @@ void Animation::frameStep()
     {
         if(m_loop)
             m_frameCurrent = m_frameStart;
-
         else
             pause();
     }

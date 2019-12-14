@@ -5,10 +5,13 @@
 #include "Entity/C_EntityManager.hpp"
 
 Entity::Entity(C_EntityManager * entitymgr) : m_name("Unknown"), m_type(EntityType::Base), m_id(0), m_state(EntityState::Idle),
-                 m_spritesheet(entitymgr->getShared()->m_textureManager), m_speed(96), dx(0), dy(0), m_lastUpdate(0) { }
+                 m_spritesheet(entitymgr->getShared()->m_textureManager),
+                 m_spritesheetWeapon(entitymgr->getShared()->m_textureManager),
+                 m_speed(192), dx(0), dy(0), m_lastUpdate(0), attacking(false) { }
                 //, m_spritesheet(entityMgr->getShared()->m_textureManager)
 #else
-Entity::Entity() : m_name("Unknown"), m_type(EntityType::Base), m_id(0), m_state(EntityState::Idle), dx(0), dy(0), m_speed(96), m_lasthearthbeat(0)
+Entity::Entity() : m_name("Unknown"), m_type(EntityType::Base), m_id(0), m_state(EntityState::Idle), dx(0), dy(0), m_speed(192),
+                 m_lasthearthbeat(0), attacking(false)
                  { }
 #endif // __CLIENT
 
@@ -19,19 +22,46 @@ void Entity::update(const float & dTime)
 
 #ifdef __CLIENT
     m_spritesheet.update(dTime);
+    m_spritesheetWeapon.update(dTime);
+
+    if(attacking)
+    {
+        m_spritesheet.setAnimation("Attack", true, true);
+        m_spritesheetWeapon.setAnimation("Attack", true, true);
+        return;
+    }
 
     if(dx == 0 && dy == 0)
     {
         m_spritesheet.setAnimation("Idle", true, true);
+        m_spritesheetWeapon.setAnimation("Idle", true, true);
         return;
     }
 
     m_spritesheet.setAnimation("Walk", true, true);
+    m_spritesheetWeapon.setAnimation("Walk", true, true);
 
-    if(dx == 1) m_spritesheet.setDirection(Direction::Right);
-    else if(dx == -1) m_spritesheet.setDirection(Direction::Left);
-    else if(dy == 1) m_spritesheet.setDirection(Direction::Down);
-    else if(dy == -1) m_spritesheet.setDirection(Direction::Up);
+    if(dx == 1)
+    {
+        m_spritesheet.setDirection(Direction::Right);
+        m_spritesheetWeapon.setDirection(Direction::Right);
+    }
+    else if(dx == -1)
+        {
+        m_spritesheet.setDirection(Direction::Left);
+        m_spritesheetWeapon.setDirection(Direction::Left);
+
+    }
+    else if(dy == 1)
+    {
+        m_spritesheet.setDirection(Direction::Down);
+        m_spritesheetWeapon.setDirection(Direction::Down);
+    }
+    else if(dy == -1)
+    {
+        m_spritesheet.setDirection(Direction::Up);
+        m_spritesheetWeapon.setDirection(Direction::Up);
+    }
 #else
 #endif // __CLIENT
 
@@ -45,6 +75,7 @@ void Entity::updateAABB()
 {
 #ifdef __CLIENT
     m_spritesheet.setSpritePosition(m_position);
+    m_spritesheetWeapon.setSpritePosition(m_position);
 #endif // __CLIENT
 }
 
@@ -54,29 +85,6 @@ void Entity::move(float x, float y)
     m_positionOld = m_position;
     if( x != 0 && y != 0) m_position += sf::Vector2f(x/1.4142, y/1.4142);
     else m_position += sf::Vector2f(x, y);
-
-    /*sf::Vector2u mapSize;
-    //sf::Vector2u mapSize = m_entityManager->GetContext()->m_gameMap->getMapSize();
-
-
-    if(m_position.x < 0)
-    {
-        m_position.x = 0;
-    }
-    else if(m_position.x > (mapSize.x + 1) * Sheet::Tile_Size)
-    {
-        m_position.x = (mapSize.x + 1) * Sheet::Tile_Size;
-    }
-
-    if(m_position.y < 0)
-    {
-        m_position.y = 0;
-    }
-    else if(m_position.y > (mapSize.y + 1) * Sheet::Tile_Size)
-    {
-        m_position.y = (mapSize.y + 1) * Sheet::Tile_Size;
-    }
-    */
 
     updateAABB();
 }
@@ -117,6 +125,7 @@ void Entity::setRace(const EntityRace & race) { m_race = race; }
 void Entity::setName(std::string name) { m_name = name; }
 void Entity::setId(unsigned int id) { m_id = id; }
 void Entity::setMoving(const sf::Int8 & x, const sf::Int8 & y) { dx = x; dy = y; };
+void Entity::setAttacking(const bool& attacking) { this->attacking = attacking; }
 
 const sf::Vector2f& Entity::getSize()const { return m_size; }
 std::string Entity::getName()const { return m_name; }
@@ -130,10 +139,12 @@ float Entity::getSpeed()const { return m_speed; }
 
 #ifdef __CLIENT
 SpriteSheet & Entity::getSpriteSheet() { return m_spritesheet; }
+SpriteSheet & Entity::getSpriteSheetWeapon() { return m_spritesheetWeapon; }
 
 void Entity::draw(sf::RenderWindow * window)
 {
     m_spritesheet.draw(window);
+    m_spritesheetWeapon.draw(window);
 }
 
 void Entity::applySnapshot(EntitySnapshot& snapshot)

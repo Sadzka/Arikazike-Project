@@ -1,4 +1,4 @@
-Texture Human.png
+Texture Axe.png
 Size 64 64
 Scale 1.0 1.0
 |Type		Name	StartFrame

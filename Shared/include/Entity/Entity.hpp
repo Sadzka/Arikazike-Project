@@ -42,6 +42,7 @@ class Entity
     EntityRace      m_race;
     sf::Int8        dx;
     sf::Int8        dy;
+    bool            attacking;
 
     //Stats
     sf::Uint16      stamina;
@@ -52,6 +53,7 @@ class Entity
 
 #ifdef __CLIENT
     SpriteSheet m_spritesheet;
+    SpriteSheet m_spritesheetWeapon;
     sf::Uint64 m_lastUpdate;
 #endif // __CLIENT
     sf::Int32 m_lasthearthbeat;
@@ -133,10 +135,12 @@ public:
 
     void move(float x, float y);
     void update(const float & dTime);
+    void setAttacking(const bool& attacking);
 
 #ifdef __CLIENT
     void draw(sf::RenderWindow * window);
     SpriteSheet & getSpriteSheet();
+    SpriteSheet & getSpriteSheetWeapon();
     void applySnapshot(EntitySnapshot& snapshot);
     void setLastUpdate( const sf::Int64 & time);
     sf::Int64 getLastUpdate()const;
