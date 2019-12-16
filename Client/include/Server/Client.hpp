@@ -82,7 +82,8 @@ public:
     void getCharacterList();
     void enterWorld(const sf::Uint64 & cid);
     void move(const int & x, const int & y);
-    void attack(const bool & att);
+    void attack(const bool & att, const int & weapon);
+    void getDestructibles();
     void getCharacterDetails();
 };
 

@@ -83,6 +83,7 @@ void Handler(sf::IpAddress& ip, const PortNumber& port, const PacketID& pid, sf:
                 if( unit->getLastHearhbeat() < hearhbeat )
                 {
                     unit->setMoving(x, y);
+                    unit->setAttacking(false);
                 }
             }
 
@@ -96,6 +97,35 @@ void Handler(sf::IpAddress& ip, const PortNumber& port, const PacketID& pid, sf:
                 Entity* entity = server->findEntity(id);
                 if(entity != nullptr)
                     packetToSend << *entity;
+            }
+            server->send(ip, port, packetToSend);
+        }
+        else if ((PacketType)pid == PacketType::Attack)
+        {
+            stampPacket(PacketType::GetDestructibles, packetToSend);
+
+            sf::Int32 hearhbeat;
+            bool attack;
+            int weapon;
+
+            packet >> hearhbeat >> attack >> weapon;
+
+            Entity * unit = server->findClient(id)->m_character;
+            if(unit != nullptr)
+            {
+                unit->setAttackingStart(hearhbeat);
+                unit->setAttacking(attack);
+                unit->setWeapon(weapon);
+            }
+        }
+        else if ((PacketType)pid == PacketType::GetDestructibles)
+        {
+            stampPacket(PacketType::GetDestructibles, packetToSend);
+
+            packetToSend << (int)(10);
+            for(auto &x : server->m_destructible)
+            {
+                packetToSend << x.second;
             }
             server->send(ip, port, packetToSend);
         }

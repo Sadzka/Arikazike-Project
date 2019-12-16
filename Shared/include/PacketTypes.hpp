@@ -14,6 +14,8 @@ enum class PacketType
     Move = 6,
     GetCharacterDetails = 7,
     Attack = 8,
+    GetDestructibles = 9,
+    RemoveDestructibe = 10,
     OutOfBounds //always last
 };
 

@@ -3,11 +3,3 @@ Fullscreen_toggle 5:89
 Move 9:0 24:38
 Ent 5:58
 Esc 5:36
-A 5:0
-D 5:3
-S 5:18
-W 5:22
-AR 6:0
-DR 6:3
-SR 6:18
-WR 6:22

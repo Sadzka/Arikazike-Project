@@ -1,4 +1,5 @@
 #include "Server\Client.hpp"
+#include "../../Shared/include/Entity/Destructible.hpp"
 
 void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * client)
 {
@@ -98,6 +99,45 @@ void Client::handlePacket(const sf::Uint16& id, sf::Packet& packet, Client * cli
                     break;
                 }
             }
+            break;
+        }
+        case PacketType::GetDestructibles:
+        {
+            int ile;
+            packet >> ile;
+
+            int type;
+            sf::Uint32 id;
+            sf::Vector2f pos;
+
+            for (int i = 0; i < ile; i++)
+            {
+                packet >> type >> id >> pos.x >> pos.y;
+                //cout << "type: " << type << " | pos: (" << pos.x << ", " << pos.y << ")\n";
+                m_shared->m_entityManager->add( DestructibleType(type) , pos, id);
+            }
+            break;
+        }
+        case PacketType::RemoveDestructibe:
+        {
+            sf::Uint32 id;
+            packet >> id;
+
+            for(auto &obj : m_shared->m_entityManager->getDestr())
+            {
+                if(obj.second->getId() == id)
+                {
+                    m_shared->m_entityManager->addItem( obj.second->getType(),
+                                                        sf::Vector2f(obj.second->getPosition().x + rand()%64,
+                                                                     obj.second->getPosition().y + rand()%64) );
+                    break;
+                }
+            }
+
+            m_shared->m_entityManager->add( DestructibleType(-1) , sf::Vector2f(0,0), id);
+
+            getDestructibles();
+
             break;
         }
         default:
@@ -417,11 +457,24 @@ void Client::move(const int & x, const int & y)
     }
 }
 
-void Client::attack(const bool & att)
+void Client::attack(const bool & att, const int & weapon)
 {
 
     if (!m_connected)
         return;
+
+    if(m_player->attacking != att)
+    {
+        sf::Packet packet;
+        stampPacket(PacketType::Attack, packet);
+        packet << m_serverTime.asMilliseconds() << att << weapon;
+        if (m_socket.send(packet, m_serverIp, m_serverPort) != sf::Socket::Done)
+        {
+            #ifdef __DEBUG
+            std::cout << "Failed to send packet! \n";
+            #endif // __DEBUG
+        }
+    }
 
     if (m_player->getSpriteSheet().getCurrentAnim()->getName() == "Walk") return;
 
@@ -430,9 +483,17 @@ void Client::attack(const bool & att)
     if (m_player->getSpriteSheet().getCurrentAnim()->getName() == "Attack") return;
 
 
-    /*
+
+}
+
+void Client::getDestructibles()
+{
+
+    if (!m_connected)
+        return;
+
     sf::Packet packet;
-    stampPacket(PacketType::Attack, packet);
+    stampPacket(PacketType::GetDestructibles, packet);
     packet << m_serverTime.asMilliseconds();
     if (m_socket.send(packet, m_serverIp, m_serverPort) != sf::Socket::Done)
     {
@@ -440,7 +501,6 @@ void Client::attack(const bool & att)
         std::cout << "Failed to send packet! \n";
         #endif // __DEBUG
     }
-    */
 }
 
 void Client::getCharacterDetails()

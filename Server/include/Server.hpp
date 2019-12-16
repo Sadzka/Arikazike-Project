@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Network.hpp>
+#include <SFML/Graphics.hpp>
 #include <unordered_map>
 #include <functional>
 #include <iostream>
@@ -7,16 +8,23 @@
 #include "../../Shared/include/PacketTypes.hpp"
 #include "Database/MySQL.hpp"
 #include "PacketHandler.hpp"
+#include "DestructibleInfo.hpp"
 
 class Server;
 
 using Clients = std::unordered_map<sf::Uint16, ClientInfo>;
+using Destructible = std::unordered_map<sf::Uint32, DestructibleInfo>;
 using PacketHandler = std::function<void(sf::IpAddress&, const PortNumber&, const PacketID&, sf::Packet&, Server*)>;
 using TimeoutHandler = std::function<void(const sf::Uint16&)>;
 
 class Server
 {
+    int cno;
+    int irno;
+    int did;
+
     friend class CommandsHandler;
+    friend void Handler(sf::IpAddress&, const PortNumber&, const PacketID&, sf::Packet&, Server*);
 
 	sf::UdpSocket m_incoming;
 	sf::UdpSocket m_outgoing;
@@ -25,6 +33,7 @@ class Server
 	//TimeoutHandler m_timeoutHandler;
 
 	Clients m_clients;
+	Destructible m_destructible;
 
 	const float POSITION_UPDATE_INTERVAL;
 	float m_positionUpdateTime;
@@ -86,6 +95,7 @@ public:
     bool hasClient(const ClientID& id);
     bool hasClient(const sf::IpAddress& ip, const PortNumber& port);
 
+    void sendRemoveDestructible(const int &type, const int &id);
 
     bool isRunning();
 

@@ -1,4 +1,5 @@
 #include "Map/Map.hpp"
+#include "../../Shared/include/Entity/Destructible.hpp"
 #include "Shared.hpp"
 
 Map::Map(Shared* shared)
@@ -145,12 +146,23 @@ void Map::setCurrentState(State * state) { m_currentState = state; }
 
 bool Map::isCollision( const int &dx, const int &dy  )
 {
+
+    for (auto &destr : m_shared->m_entityManager->getDestr())
+    {
+        if( destr.second->contains( sf::Vector2f( m_player->getPosition().x + dx*32,
+                                                  m_player->getPosition().y + dy*32 )))
+        {
+            return true;
+        }
+    }
+
+
     sf::Vector2i cords = sf::Vector2i( (m_player->getPosition().x + Tiles::size*dx/4)/Tiles::size,
                                        (m_player->getPosition().y + Tiles::size*dy/2)/Tiles::size );
 
     for(sf::Uint32 i=0; i<m_collisionsNumber; i++)
     {
-        if( m_map[cords.x][cords.y] == m_noCollision[i] )
+        if( m_map[cords.x][cords.y] == (int)m_noCollision[i] )
             return false;
 
     }

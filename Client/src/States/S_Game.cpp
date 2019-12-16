@@ -9,15 +9,25 @@ void S_Game::loadGUI()
     tgui::Gui * gui = m_stateMgr->getContext()->m_gui;
     /// menu pod escape
 
+/*
+    auto chat = tgui::ChatBox::create();
+    //tgui::ChatBox.setPosition({"0, 100% - 60"});
+    chat->setPosition({"0" , "100% - 150"});
+    chat->setSize( {"330, 150"} );
+    gui->add(chat, "Chat" );
+*/
+
+    selectedWeapon = 1;
     auto item1 = tgui::Button::create( "" );
     item1->setSize( {64, 64} );
     item1->setPosition({"50% - 32" , "100% - 64"});
-    item1->getRenderer()->setTexture("Data/img/Items/item1.png");
+    item1->getRenderer()->setTexture("Data/img/Items/item1s.png");
     item1->connect("pressed", [&]()
     {
         m_stateMgr->getContext()->m_gui->get<tgui::Button>("MainSlot1")->getRenderer()->setTexture("Data/img/Items/item1s.png");
         m_stateMgr->getContext()->m_gui->get<tgui::Button>("MainSlot2")->getRenderer()->setTexture("Data/img/Items/item2.png");
         m_stateMgr->getContext()->m_client->getPlayer()->getSpriteSheetWeapon().changeTexture("Pickaxe.png");
+        selectedWeapon = 1;
     });
     gui->add(item1, "MainSlot1" );
 
@@ -30,15 +40,53 @@ void S_Game::loadGUI()
         m_stateMgr->getContext()->m_gui->get<tgui::Button>("MainSlot1")->getRenderer()->setTexture("Data/img/Items/item1.png");
         m_stateMgr->getContext()->m_gui->get<tgui::Button>("MainSlot2")->getRenderer()->setTexture("Data/img/Items/item2s.png");
         m_stateMgr->getContext()->m_client->getPlayer()->getSpriteSheetWeapon().changeTexture("Axe.png");
+        selectedWeapon = 0;
     });
     gui->add(item2, "MainSlot2" );
 
+
+
+    auto buttonLogout = tgui::Button::create( "Logout" );
+    buttonLogout->setSize(160, 40);
+    buttonLogout->setPosition( {"50% - 80", "50% - 70"} );
+    buttonLogout->setTextSize(20);
+    buttonLogout->connect("pressed", [&]()
+    {
+        m_stateMgr->getContext()->m_client->disconnect();
+        m_stateMgr->getContext()->m_stateManager->switchTo(StateType::Intro);
+    });
+    buttonLogout->setVisible(false);
+    gui->add(buttonLogout, "buttonLogout" );
+
+    auto buttonExit = tgui::Button::copy( buttonLogout );
+    buttonExit->setPosition( {"50% - 80", "50% - 20"} );
+    buttonExit->setText("Exit");
+    buttonExit->connect("pressed", [&]()
+    {
+        m_stateMgr->getContext()->m_client->disconnect();
+        m_stateMgr->getContext()->m_wind->close(nullptr);
+    });
+    gui->add(buttonExit, "buttonExit" );
+
+    auto buttonCancel= tgui::Button::copy( buttonLogout );
+    buttonCancel->setPosition( {"50% - 80", "50% + 30"} );
+    buttonCancel->setText("Cancel");
+    buttonCancel->connect("pressed", [&]()
+    {
+        m_stateMgr->getContext()->m_gui->get<tgui::Button>("buttonLogout")->setVisible(false);
+        m_stateMgr->getContext()->m_gui->get<tgui::Button>("buttonExit")->setVisible(false);
+        m_stateMgr->getContext()->m_gui->get<tgui::Button>("buttonCancel")->setVisible(false);
+    });
+    gui->add(buttonCancel, "buttonCancel" );
 
 }
 
 void S_Game::onCreate()
 {
-    //EventManager* evMgr = m_stateMgr->getContext()->m_eventManager;
+    m_stateMgr->getContext()->m_client->getDestructibles();
+
+    EventManager* evMgr = m_stateMgr->getContext()->m_eventManager;
+    evMgr->addCallback(StateType::Game, "Esc", &S_Game::escapeMenu, this);
 
 /*
     evMgr->addCallback(StateType::Game, "A", &S_Game::move, this);
@@ -121,7 +169,7 @@ void S_Game::move(EventDetails* details)
     if(!m_stateMgr->getContext()->m_wind->getRenderWindow()->hasFocus()) return;
 
 
-    m_stateMgr->getContext()->m_client->attack( sf::Mouse::isButtonPressed( sf::Mouse::Left ) );
+    m_stateMgr->getContext()->m_client->attack( sf::Mouse::isButtonPressed( sf::Mouse::Left ), selectedWeapon );
 
     int dx = 0;
     int dy = 0;
@@ -146,4 +194,16 @@ void S_Game::move(EventDetails* details)
 
     m_stateMgr->getContext()->m_client->move(dx, dy);
 
+}
+
+void S_Game::escapeMenu(EventDetails* details)
+{
+    auto x = m_stateMgr->getContext()->m_gui->get<tgui::Button>("buttonLogout");
+    x->setVisible( !x->isVisible() );
+
+    x = m_stateMgr->getContext()->m_gui->get<tgui::Button>("buttonExit");
+    x->setVisible( !x->isVisible() );
+
+    x = m_stateMgr->getContext()->m_gui->get<tgui::Button>("buttonCancel");
+    x->setVisible( !x->isVisible() );
 }

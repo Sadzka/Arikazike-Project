@@ -3,6 +3,9 @@
 Server::Server(void(*handler)(sf::IpAddress&, const PortNumber&, const PacketID&, sf::Packet&, Server*))
     : m_listenThread(&Server::listen, this), m_running(false), mysql(this), POSITION_UPDATE_INTERVAL(0.5)
 {
+    cno = 0;
+    irno = 0;
+    did = 0;
     // Bind a packet handler function.
     m_packetHandler = std::bind(handler,
                                 std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,
@@ -226,7 +229,68 @@ void Server::update(const sf::Time& time)
     for (auto itr = m_clients.begin(); itr != m_clients.end(); )
     {
         if( itr->second.m_character != nullptr )
+        {
             itr->second.m_character->update(time.asSeconds());
+
+            //cout << m_serverTime.asMilliseconds() << " - " << itr->second.m_character->getAttackingTime()
+            //<< " = " << m_serverTime.asMilliseconds() - itr->second.m_character->getAttackingTime() << endl;
+
+            if(itr->second.m_character->isAttacking()
+            && m_serverTime.asMilliseconds() - itr->second.m_character->getAttackingTime() > 1500 )
+            {
+
+                sf::Vector2f dir = itr->second.m_character->getDirection();
+
+                for(auto &destr : m_destructible)
+                {
+                    if(itr->second.m_character->getWeapon() != destr.second.type) continue;
+
+                    sf::FloatRect rect;
+                    if(destr.second.type == 0) rect = sf::FloatRect(destr.second.position.x,destr.second.position.y, 64, 96);
+                    else if(destr.second.type == 1) rect = sf::FloatRect(destr.second.position.x,destr.second.position.y, 64, 64);
+                    else continue;
+
+
+                    if( rect.contains( itr->second.m_character->getPosition().x + 64*dir.x,
+                                       itr->second.m_character->getPosition().y + 64*dir.y) )
+                    {
+                        sendRemoveDestructible(destr.second.type, destr.second.id);
+                    }
+
+                    /*
+                    if(dir.x == 1 )
+                    {
+                        if( rect.contains( itr->second.m_character->getPosition().x + 64, itr->second.m_character->getPosition().y ) )
+                        {
+                            sendRemoveDestructible(destr.second.type, destr.second.id);
+                        }
+                    }
+                    else if(dir.x == -1 )
+                    {
+                        if( rect.contains( itr->second.m_character->getPosition().x - 64, itr->second.m_character->getPosition().y ) )
+                        {
+                            sendRemoveDestructible(destr.second.type, destr.second.id);
+                        }
+                    }
+                    else if(dir.y == 1 )
+                    {
+                        if( rect.contains( itr->second.m_character->getPosition().x, itr->second.m_character->getPosition().y + 64 ) )
+                        {
+                            sendRemoveDestructible(destr.second.type, destr.second.id);
+                        }
+                    }
+                    else if(dir.y == -1 )
+                    {
+                        if( rect.contains( itr->second.m_character->getPosition().x, itr->second.m_character->getPosition().y - 64 ) )
+                        {
+                            sendRemoveDestructible(destr.second.type, destr.second.id);
+                        }
+                    }
+                    */
+                }
+                itr->second.m_character->setAttackingStart( m_serverTime.asMilliseconds() );
+            }
+        }
 
         sf::Int32 elapsed = m_serverTime.asMilliseconds() - itr->second.m_lastHeartbeat.asMilliseconds();
         if (elapsed >= HEARTBEAT_INTERVAL)
@@ -270,6 +334,33 @@ void Server::update(const sf::Time& time)
         }
 
         itr++;
+    }
+
+    while(cno < 5)
+    {
+        DestructibleInfo destr;
+        destr.type = 0;
+        destr.position.x = rand()%600 + 300;
+        destr.position.y = rand()%600 + 300;
+        destr.size.x = 64;
+        destr.size.y = 96;
+        destr.id = did++;
+
+        m_destructible.emplace(destr.id, destr);
+        cno++;
+    }
+    while(irno < 5)
+    {
+        DestructibleInfo destr;
+        destr.type = 1;
+        destr.position.x = rand()%600 + 300;
+        destr.position.y = rand()%600 + 300;
+        destr.size.x = 64;
+        destr.size.y = 64;
+        destr.id = did++;
+
+        m_destructible.emplace(destr.id, destr);
+        irno++;
     }
 }
 
@@ -501,6 +592,18 @@ void Server::removeCharacter(const ClientID& id)
         delete itr->second.m_character;
         itr->second.m_character = nullptr;
     }
+}
+
+void Server::sendRemoveDestructible(const int &type, const int &id)
+{
+    sf::Packet packet;
+    stampPacket(PacketType::RemoveDestructibe, packet);
+    packet << id;
+    broadcast(packet);
+
+    if(type == 0) cno--;
+    if(type == 1) irno--;
+    m_destructible.erase( id );
 }
 
 Clients Server::getClients() { return m_clients; }

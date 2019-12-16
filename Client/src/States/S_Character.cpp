@@ -7,9 +7,11 @@ void S_Character::loadGUI()
 {
     tgui::Gui * gui = m_stateMgr->getContext()->m_gui;
 
+    /*
     auto picture = tgui::Picture::create( "Data\\img\\Screens\\login.jpg" );
     picture->setSize("100% + 1", "100% + 1");
     gui->add(picture);
+    */
 
     // Create the Enter button
     auto buttonEnter = tgui::Button::create("Enter World");

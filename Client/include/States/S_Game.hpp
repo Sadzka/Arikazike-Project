@@ -32,4 +32,5 @@ public:
     virtual void draw();
 
     void move(EventDetails* details);
+    void escapeMenu(EventDetails* details);
 };

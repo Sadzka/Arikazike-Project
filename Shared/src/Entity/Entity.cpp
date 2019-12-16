@@ -4,13 +4,13 @@
 
 #include "Entity/C_EntityManager.hpp"
 
-Entity::Entity(C_EntityManager * entitymgr) : m_name("Unknown"), m_type(EntityType::Base), m_id(0), m_state(EntityState::Idle),
+Entity::Entity(C_EntityManager * entitymgr) :  m_type(EntityType::Base), m_state(EntityState::Idle),
                  m_spritesheet(entitymgr->getShared()->m_textureManager),
                  m_spritesheetWeapon(entitymgr->getShared()->m_textureManager),
                  m_speed(192), dx(0), dy(0), m_lastUpdate(0), attacking(false) { }
                 //, m_spritesheet(entityMgr->getShared()->m_textureManager)
 #else
-Entity::Entity() : m_name("Unknown"), m_type(EntityType::Base), m_id(0), m_state(EntityState::Idle), dx(0), dy(0), m_speed(192),
+Entity::Entity() : m_type(EntityType::Base), m_state(EntityState::Idle), dx(0), dy(0), m_speed(192),
                  m_lasthearthbeat(0), attacking(false)
                  { }
 #endif // __CLIENT
@@ -86,6 +86,18 @@ void Entity::move(float x, float y)
     if( x != 0 && y != 0) m_position += sf::Vector2f(x/1.4142, y/1.4142);
     else m_position += sf::Vector2f(x, y);
 
+    #ifdef __SERVER
+    if(x != 0)
+    {
+        direction.x = (x>0) ? (1) : (-1);
+        direction.y = 0;
+    }
+    if(y != 0)
+    {
+        direction.x = 0;
+        direction.y = (y>0) ? (1) : (-1);
+    }
+    #endif // __SERVER
     updateAABB();
 }
 
@@ -126,6 +138,7 @@ void Entity::setName(std::string name) { m_name = name; }
 void Entity::setId(unsigned int id) { m_id = id; }
 void Entity::setMoving(const sf::Int8 & x, const sf::Int8 & y) { dx = x; dy = y; };
 void Entity::setAttacking(const bool& attacking) { this->attacking = attacking; }
+void Entity::setAttackingStart(sf::Int32 hearhbeat) { this->attackingStart = hearhbeat; }
 
 const sf::Vector2f& Entity::getSize()const { return m_size; }
 std::string Entity::getName()const { return m_name; }
@@ -133,9 +146,11 @@ Location Entity::getLocation()const { return m_location; }
 EntityState Entity::getState()const { return m_state; }
 unsigned int Entity::getId()const { return m_id; }
 EntityType Entity::getType()const { return m_type; }
-const sf::Vector2f Entity::getPosition()const { return m_position; }
 EntityRace Entity::getRace()const { return m_race; }
 float Entity::getSpeed()const { return m_speed; }
+bool Entity::isAttacking()const { return attacking; };
+sf::Int32 Entity::getAttackingTime()const { return attackingStart; };
+sf::Vector2f Entity::getDx()const { return sf::Vector2f(dx, dy); }
 
 #ifdef __CLIENT
 SpriteSheet & Entity::getSpriteSheet() { return m_spritesheet; }

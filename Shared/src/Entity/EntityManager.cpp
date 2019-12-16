@@ -1,4 +1,6 @@
 #include "../../Shared/include/Entity/EntityManager.hpp"
+#include "../../Shared/include/Entity/Destructible.hpp"
+#include "../../Shared/include/Entity/Item.hpp"
 
 EntityManager::EntityManager()
 {
@@ -64,6 +66,11 @@ void EntityManager::update(float & dT)
 		itr.second->update(dT);
     }
 
+    for(auto &itr : m_items)
+    {
+		itr.second->update(dT);
+    }
+
 	#ifdef __CLIENT
 	m_clientTime += dT*1000;
 	if(m_clientTime < 0)
@@ -125,4 +132,4 @@ sf::Int64 EntityManager::getClientTime() { return m_clientTime; }
 
 sf::Uint32 EntityManager::getSize() { return m_entities.size(); }
 
-
+DestructibleContainer EntityManager::getDestr() { return m_destructible; }

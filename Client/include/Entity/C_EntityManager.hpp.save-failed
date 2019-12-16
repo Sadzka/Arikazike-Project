@@ -1,5 +1,4 @@
 #pragma once
-#include "../../Shared/include/Entity/DestructibleTypes.hpp"
 #include "Entity/EntityManager.hpp"
 #include "Entity/EntitySnapshot.hpp"
 #include "Entity/Entity.hpp"
@@ -10,7 +9,6 @@ class Shared;
 class C_EntityManager : public EntityManager
 {
 	Shared * m_shared;
-	unsigned int itemId;
 public:
 
 	C_EntityManager(Shared * shared);
@@ -22,8 +20,6 @@ public:
     void updateEntity(EntitySnapshot & snapshot, const int & id);
 
 
-	void add(const DestructibleType &type, sf::Vector2f pos, const sf::Uint32& id);
-	void remove(const sf::Uint32& id);
-
-	void addItem(const DestructibleType &type, sf::Vector2f pos);
+	void add(const DestructibleType &type, sf::Vector2f pos, const sf::uint32& id);
+	void remove(const sf::uint32& id);
 };

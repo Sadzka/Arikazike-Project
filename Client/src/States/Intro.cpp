@@ -12,9 +12,11 @@ void Intro::loadGUI()
 
     //gui->loadWidgetsFromFile("widget.txt");
 
+    /*
     auto picture = tgui::Picture::create( "Data\\img\\Screens\\main.jpg" );
     picture->setSize("100% + 1", "100% + 1");
     gui->add(picture);
+    */
 
     auto editBoxUsername = tgui::EditBox::create();
     editBoxUsername->setSize({300, 40});

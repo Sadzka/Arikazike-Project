@@ -10,7 +10,7 @@
 #include "EntityType.hpp"
 #include "EntitySnapshot.hpp"
 #include "EntityRace.hpp"
-
+#include "Object.hpp"
 #include "../Locations.hpp"
 #include "Directions.hpp"
 
@@ -24,7 +24,7 @@ class C_EntityManager;
 
 using Components = std::unordered_map< unsigned int, Component*>;
 
-class Entity
+class Entity : public Object
 {
     friend class EntityManager;
     friend class C_EntityManager;
@@ -35,14 +35,13 @@ class Entity
 
     Components      m_components;
     Location        m_location;
-    std::string     m_name;
     EntityType      m_type;
-    sf::Uint32      m_id; // Entity id in the entity manager.
     EntityState     m_state; // Current entity state.
     EntityRace      m_race;
     sf::Int8        dx;
     sf::Int8        dy;
     bool            attacking;
+    sf::Int32       attackingStart;
 
     //Stats
     sf::Uint16      stamina;
@@ -55,11 +54,13 @@ class Entity
     SpriteSheet m_spritesheet;
     SpriteSheet m_spritesheetWeapon;
     sf::Uint64 m_lastUpdate;
+#else
+    sf::Vector2f direction;
+
+    sf::Vector2f getDirection() { return direction; }
 #endif // __CLIENT
     sf::Int32 m_lasthearthbeat;
 
-    sf::Vector2f m_position; // Current position.
-    sf::Vector2f m_positionOld; // Position before entity moved.
 
     sf::Vector2f m_size; // Size of the collision box.
     sf::Vector2f m_hitbox; // The bounding box for collisions.
@@ -129,13 +130,17 @@ public:
     EntityState getState()const;
     unsigned int getId()const;
     EntityType getType()const;
-    const sf::Vector2f getPosition()const;
+    //const sf::Vector2f getPosition()const;
     EntityRace getRace()const;
     float getSpeed()const;
+    bool isAttacking()const;
+    sf::Int32 getAttackingTime()const;
+    sf::Vector2f getDx()const;
 
     void move(float x, float y);
     void update(const float & dTime);
     void setAttacking(const bool& attacking);
+    void setAttackingStart(sf::Int32 hearhbeat);
 
 #ifdef __CLIENT
     void draw(sf::RenderWindow * window);
@@ -148,6 +153,9 @@ public:
     EntitySnapshot getSnapshot();
     void setLastHearhbeat(const sf::Int32 & time);
     sf::Int32 getLastHearhbeat()const;
+    int m_weapon;
+    void setWeapon(const int &weapon) { m_weapon = weapon; }
+    int getWeapon()const { return m_weapon; }
 #endif // __CLIENT
 
     friend sf::Packet& operator<< (sf::Packet& packet, const Entity& entity);

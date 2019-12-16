@@ -68,10 +68,10 @@
 		<Unit filename="include/ClientInfo.hpp" />
 		<Unit filename="include/Console/Commands.hpp" />
 		<Unit filename="include/Database/MySQL.hpp" />
+		<Unit filename="include/DestructibleInfo.hpp" />
 		<Unit filename="include/PacketHandler.hpp" />
 		<Unit filename="include/Server.hpp" />
 		<Unit filename="include/Utilities/sha512.h" />
-		<Unit filename="include/test.h" />
 		<Unit filename="src/Console/Commands.cpp" />
 		<Unit filename="src/Database/MySQL.cpp" />
 		<Unit filename="src/PacketHandler.cpp" />
